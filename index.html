@@ -1,3 +1,4 @@
+cat << 'EOF' > www/index.html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,7 +15,6 @@
             --card-back: #eef5fc;
             --text-color: #333333;
         }
-
         body {
             font-family: 'Helvetica Neue', Arial, sans-serif;
             background-color: var(--bg-color);
@@ -28,25 +28,9 @@
             user-select: none;
             -webkit-user-select: none;
         }
-
-        h2, h3 {
-            color: #444;
-            margin: 10px 0 5px 0;
-            text-align: center;
-        }
-
-        .counter {
-            font-size: 0.9rem;
-            color: #888;
-            margin-bottom: 15px;
-        }
-
-        /* View Switching Control */
-        .hidden {
-            display: none !important;
-        }
-
-        /* Deck Selection Grid */
+        h2, h3 { color: #444; margin: 10px 0 5px 0; text-align: center; }
+        .counter { font-size: 0.9rem; color: #888; margin-bottom: 15px; }
+        .hidden { display: none !important; }
         .deck-list {
             width: 100%;
             max-width: 340px;
@@ -55,7 +39,6 @@
             gap: 10px;
             margin-top: 15px;
         }
-
         .deck-item {
             background: white;
             padding: 15px;
@@ -66,25 +49,9 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.05);
             border: 1px solid #e1e8ed;
         }
-
-        .deck-info {
-            cursor: pointer;
-            flex-grow: 1;
-        }
-
-        .deck-name {
-            font-weight: bold;
-            font-size: 1.1rem;
-            color: #2c3e50;
-        }
-
-        .deck-count {
-            font-size: 0.85rem;
-            color: #777;
-            margin-top: 2px;
-        }
-
-        /* Flashcard Area styling */
+        .deck-info { cursor: pointer; flex-grow: 1; }
+        .deck-name { font-weight: bold; font-size: 1.1rem; color: #2c3e50; }
+        .deck-count { font-size: 0.85rem; color: #777; margin-top: 2px; }
         .flashcard-container {
             width: 320px;
             height: 220px;
@@ -92,7 +59,6 @@
             cursor: pointer;
             margin-bottom: 20px;
         }
-
         .flashcard {
             width: 100%;
             height: 100%;
@@ -102,11 +68,7 @@
             box-shadow: 0 8px 20px rgba(0,0,0,0.1);
             border-radius: 15px;
         }
-
-        .flashcard.is-flipped {
-            transform: rotateY(180deg);
-        }
-
+        .flashcard.is-flipped { transform: rotateY(180deg); }
         .card-face {
             position: absolute;
             width: 100%;
@@ -120,76 +82,32 @@
             padding: 20px;
             box-sizing: border-box;
             text-align: center;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-weight: 500;
             word-break: break-word;
         }
-
-        .card-front {
-            background-color: var(--card-front);
-            color: var(--text-color);
-            border: 2px solid #e1e8ed;
-        }
-
-        .card-back {
-            background-color: var(--card-back);
-            color: #2c3e50;
-            transform: rotateY(180deg);
-            border: 2px solid var(--primary-color);
-        }
-
-        /* Buttons and Inputs */
-        .action-bar {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .controls {
-            display: flex;
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
+        .card-front { background-color: var(--card-front); color: var(--text-color); border: 2px solid #e1e8ed; }
+        .card-back { background-color: var(--card-back); color: #2c3e50; transform: rotateY(180deg); border: 2px solid var(--primary-color); }
+        .action-bar { display: flex; gap: 10px; margin-bottom: 20px; }
+        .controls { display: flex; gap: 20px; margin-bottom: 30px; }
         button {
-            border: none;
-            padding: 10px 20px;
-            font-size: 0.95rem;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: bold;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: transform 0.1s;
+            border: none; padding: 10px 20px; font-size: 0.95rem; border-radius: 25px;
+            cursor: pointer; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.1s;
         }
-
         button:active { transform: scale(0.95); }
-
         .btn-blue { background-color: var(--primary-color); color: white; }
         .btn-orange { background-color: #f39c12; color: white; }
         .btn-red { background-color: var(--danger-color); color: white; }
         .btn-green { background-color: var(--success-color); color: white; width: 100%; margin-top: 10px; }
         .btn-sm-red { background-color: var(--danger-color); color: white; padding: 6px 12px; font-size: 0.8rem; border-radius: 12px; }
-
         .panel {
-            width: 320px;
-            background: white;
-            padding: 15px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            box-sizing: border-box;
-            margin-top: 15px;
+            width: 320px; background: white; padding: 15px; border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05); box-sizing: border-box; margin-top: 15px;
         }
-
         .input-group { margin-bottom: 10px; }
         .input-group label { display: block; font-size: 0.85rem; color: #777; margin-bottom: 4px; }
-        
         input[type="text"] {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            box-sizing: border-box;
-            font-size: 1rem;
+            width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 1rem;
         }
     </style>
 </head>
@@ -197,23 +115,18 @@
 
     <div id="deck-dashboard-view">
         <h2>📚 My Flashcard Decks</h2>
-        
         <div class="panel">
             <h3>➕ Create New Set / Deck</h3>
             <div class="input-group">
-                <input type="text" id="input-deck-name" placeholder="e.g., Lesson 11">
+                <input type="text" id="input-deck-name" placeholder="e.g., Lesson 14">
             </div>
             <button class="btn-green" onclick="createNewDeck()">Create Deck</button>
         </div>
-
-        <div class="deck-list" id="decks-container">
-            </div>
+        <div class="deck-list" id="decks-container"></div>
     </div>
-
 
     <div id="study-view" class="hidden">
         <button class="btn-blue" onclick="showDashboard()" style="margin-bottom: 10px;">◀ Back to Decks</button>
-        
         <h2 id="current-deck-title">Deck Name</h2>
         <div class="counter" id="counter">Card 0 of 0</div>
 
@@ -237,11 +150,11 @@
         <div class="panel">
             <h3>➕ Add Card to this Set</h3>
             <div class="input-group">
-                <label for="input-front">Front Text</label>
+                <label for="input-front">Front Side (Nihongo / Hint)</label>
                 <input type="text" id="input-front" placeholder="e.g., しょうらい">
             </div>
             <div class="input-group">
-                <label for="input-back">Back Text</label>
+                <label for="input-back">Back Side (English / Meaning)</label>
                 <input type="text" id="input-back" placeholder="e.g., future">
             </div>
             <button class="btn-green" onclick="addNewCard()">Save Card</button>
@@ -249,41 +162,159 @@
     </div>
 
     <script>
-        // Core structural mapping: { "DeckName": [{front: "", back: ""}] }
-        let decksData = JSON.parse(localStorage.getItem('flashcardDecks')) || {};
+        const bookLessons = {
+            "Lesson 11": [
+                { front: "しょうらい (将来)", back: "future" },
+                { front: "かいもの (買い物)", back: "shopping" },
+                { front: "ドレス", back: "dress" },
+                { front: "ゆかた (浴衣)", back: "yukata (informal kimono)" },
+                { front: "にんぎょう (人形)", back: "doll" },
+                { front: "ドライバー", back: "screw driver" },
+                { front: "よびぶひん (予備部品)", back: "spare parts" },
+                { front: "くすりや (薬屋)", back: "pharmacy, drugstore" },
+                { front: "いたみどめ (痛み止め)", back: "painkiller" },
+                { front: "かしゅ (歌手)", back: "singer" },
+                { front: "げんば (現場)", back: "field, site" },
+                { front: "たな (棚)", back: "shelf" },
+                { front: "くつした (靴下)", back: "socks" },
+                { front: "タイプライター", back: "typewriter" },
+                { front: "びょうき (病気)", back: "illness, ill" },
+                { front: "まち (町)", back: "town, city" },
+                { front: "まどぐち (窓口)", back: "window, teller" },
+                { front: "きかい (機械)", back: "machine" },
+                { front: "ふうとう (封筒)", back: "envelope" },
+                { front: "げんかん (玄関)", back: "entrance" },
+                { front: "パスポート", back: "passport" },
+                { front: "ううん", back: "no (informal)" },
+                { front: "うん", back: "yes (informal)" },
+                { front: "よろこびます (喜びます)", back: "to be pleased, be glad" },
+                { front: "よごします (汚します)", back: "to soil, stain" },
+                { front: "ひきます (弾きます)", back: "to play" },
+                { front: "もどします (戻します)", back: "to return (things)" },
+                { front: "ぬぎます", back: "to take off (clothes)" },
+                { front: "はこびます (運びます)", back: "to carry, transport" },
+                { front: "なおります (治ります)", back: "to get cured" },
+                { front: "おぼえます (覚えます)", back: "to memorize, remember" },
+                { front: "なげます (投げます)", back: "to throw, pitch" },
+                { front: "そうじします (掃除します)", back: "to clean" },
+                { front: "ひつよう（な） (必要)", back: "necessary" },
+                { front: "いや（な） (嫌)", back: "disgusting / unpleasant" },
+                { front: "ふべん（な） (不便)", back: "inconvenient" },
+                { front: "べんり（な） (便利)", back: "convenient" }
+            ],
+            "Lesson 12": [
+                { front: "なっとう (納豆)", back: "fermented soy bean" },
+                { front: "なまたまご (生卵)", back: "raw egg" },
+                { front: "ディスコ", back: "disco" },
+                { front: "じしん (地震)", back: "earthquake" },
+                { front: "おかねもち (お金持ち)", back: "rich person" },
+                { front: "じぶんの (自分)", back: "own" },
+                { front: "サラダゆ (サラダ油)", back: "salad oil" },
+                { front: "チーズ", back: "cheese" },
+                { front: "こうつうじゅうたい (交通渋滞)", back: "traffic jam" },
+                { front: "せんぷうき", back: "electric fan" },
+                { front: "せつめい (説明)", back: "explanation" },
+                { front: "ランプ", back: "lamp" },
+                { front: "しかた (仕方)", back: "way of doing, method" },
+                { front: "たばこ", back: "cigarette" },
+                { front: "ぼく (僕)", back: "I (used by men)" },
+                { front: "のぼります (登ります)", back: "to climb" },
+                { front: "すいます (吸います)", back: "to smoke" },
+                { front: "かぜをひきます (風邪をひきます)", back: "to catch a cold" },
+                { front: "やります", back: "to do" },
+                { front: "おきます (置きます)", back: "to put" },
+                { front: "なります", back: "to become" },
+                { front: "もちます (持ちます)", back: "to bring" },
+                { front: "はじめます (始めます)", back: "to start, begin" },
+                { front: "やめます (辞めます)", back: "to quit, stop, resign" },
+                { front: "たおれます (倒れます)", back: "to fall down, collapse" },
+                { front: "せきがでます (咳が出ます)", back: "have a cough" },
+                { front: "そうだんします (相談します)", back: "to consult" },
+                { front: "ちゅうもんします (注文します)", back: "to order" },
+                { front: "ちこくします (遅刻します)", back: "to be late" },
+                { front: "うらやましい", back: "envious" },
+                { front: "うるさい", back: "noisy" },
+                { front: "きびしい", back: "strict" },
+                { front: "れいぎ正しい", back: "polite, courteous" },
+                { front: "だいじょうぶ（な） (大丈夫)", back: "all right, ok" },
+                { front: "ダメ（な）", back: "no good, useless" },
+                { front: "かならず", back: "be sure to, without fail" }
+            ],
+            "Lesson 13": [
+                { front: "いみ (意味)", back: "meaning" },
+                { front: "ごみ", back: "garbage" },
+                { front: "ざいりょう (材料)", back: "ingredients, material" },
+                { front: "しゅみ (趣味)", back: "hobby" },
+                { front: "しょるい (書類)", back: "document paper" },
+                { front: "せんぱい (先輩)", back: "senior, superior" },
+                { front: "なつやすみ (夏休み)", back: "summer vacation" },
+                { front: "ピアス", back: "earrings" },
+                { front: "ゆうせんせき (優先席)", back: "priority seat" },
+                { front: "ゆか (床)", back: "floor" },
+                { front: "わしょく (和食)", back: "Japanese food" },
+                { front: "ようしょく (洋食)", back: "Western-style food" },
+                { front: "あきます (開きます)", back: "to be open" },
+                { front: "おします (押します)", back: "to push" },
+                { front: "たのみます (頼みます)", back: "to ask a favor, beg" },
+                { front: "はいります (入ります)", back: "to enter" },
+                { front: "はきます", back: "to wear (pants, shoes, etc.)" },
+                { front: "ふとります (太ります)", back: "to get fat" },
+                { front: "あけます (開けます)", back: "to open" },
+                { front: "かさねます (重ねます)", back: "to pile, stack" },
+                { front: "かります (借ります)", back: "to borrow" },
+                { front: "きこえます (聞こえます)", back: "can be heard, audible" },
+                { front: "しめます (閉めます)", back: "to close" },
+                { front: "たすけます (助けます)", back: "to help" },
+                { front: "つかれます (疲れます)", back: "to get tired" },
+                { front: "みえます (見えます)", back: "can be seen, visible" },
+                { front: "やぜます", back: "to get thin" },
+                { front: "わすれます (忘れます)", back: "to forget" },
+                { front: "あんきします (暗記します)", back: "to memorize" },
+                { front: "うんてんします (運転します)", back: "to drive" },
+                { front: "けんかします", back: "to quarrel" },
+                { front: "しんせいします (申請)", back: "to apply (passport)" },
+                { front: "にゅういんします (入院します)", back: "to confine" },
+                { front: "ほうこくします (報告します)", back: "to report" },
+                { front: "ちょきんします (貯金します)", back: "to save" },
+                { front: "たのしい (楽しい)", back: "enjoyable" },
+                { front: "おもしろい (面白い)", back: "interesting" },
+                { front: "さびしい (寂しい)", back: "lonely" },
+                { front: "いちど／いちども", back: "even once" },
+                { front: "ぜひ", back: "by all means" },
+                { front: "すいぶん", back: "a lot, much, enough" }
+            ]
+        };
+
+        let decksData = JSON.parse(localStorage.getItem('flashcardDecks'));
+        if (!decksData || Object.keys(decksData).length === 0) {
+            decksData = bookLessons;
+            localStorage.setItem('flashcardDecks', JSON.stringify(decksData));
+        }
+
         let activeDeckKey = null;
         let currentIndex = 0;
 
         const dashboardView = document.getElementById('deck-dashboard-view');
         const studyView = document.getElementById('study-view');
         const decksContainer = document.getElementById('decks-container');
-        
         const cardElement = document.getElementById('card');
         const frontFace = document.getElementById('front-face');
         const backFace = document.getElementById('back-face');
         const counterElement = document.getElementById('counter');
         const currentDeckTitle = document.getElementById('current-deck-title');
 
-        // --- DASHBOARD CONTROLS ---
         function renderDecks() {
             decksContainer.innerHTML = '';
-            const keys = Object.keys(decksData);
-
-            if (keys.length === 0) {
-                decksContainer.innerHTML = '<p style="text-align:center; color:#888;">No sets created yet. Add one above!</p>';
-                return;
-            }
-
-            keys.forEach(key => {
+            Object.keys(decksData).forEach(key => {
                 const cardCount = decksData[key].length;
                 const deckItem = document.createElement('div');
                 deckItem.className = 'deck-item';
                 deckItem.innerHTML = `
-                    <div class="deck-info" onclick="openDeck('${escapeJS(key)}')">
-                        <div class="deck-name">${escapeHTML(key)}</div>
-                        <div class="deck-count">${cardCount} card${cardCount === 1 ? '' : 's'}</div>
+                    <div class="deck-info" onclick="openDeck('${key.replace(/'/g, "\\'")}')">
+                        <div class="deck-name">${key}</div>
+                        <div class="deck-count">${cardCount} cards</div>
                     </div>
-                    <button class="btn-sm-red" onclick="deleteDeck(event, '${escapeJS(key)}')">Delete</button>
+                    <button class="btn-sm-red" onclick="deleteDeck(event, '${key.replace(/'/g, "\\'")}')">Delete</button>
                 `;
                 decksContainer.appendChild(deckItem);
             });
@@ -291,173 +322,105 @@
 
         function createNewDeck() {
             const nameInput = document.getElementById('input-deck-name');
-            const deckName = nameInput.value.trim();
-
-            if (!deckName) {
-                alert("Please enter a valid Deck name!");
-                return;
-            }
-            if (decksData[deckName]) {
-                alert("A set with this name already exists!");
-                return;
-            }
-
-            decksData[deckName] = [];
-            saveData();
+            const name = nameInput.value.trim();
+            if (!name || decksData[name]) return alert("Invalid or duplicate deck name!");
+            decksData[name] = [];
+            localStorage.setItem('flashcardDecks', JSON.stringify(decksData));
             nameInput.value = '';
             renderDecks();
         }
 
-        function deleteDeck(event, deckKey) {
-            event.stopPropagation();
-            if (confirm(`Are you sure you want to completely delete the set "${deckKey}"?`)) {
-                delete decksData[deckKey];
-                saveData();
+        function deleteDeck(e, key) {
+            e.stopPropagation();
+            if(confirm(`Delete deck "${key}"?`)) {
+                delete decksData[key];
+                localStorage.setItem('flashcardDecks', JSON.stringify(decksData));
                 renderDecks();
             }
         }
 
-        function openDeck(deckKey) {
-            activeDeckKey = deckKey;
-            currentIndex = 0;
-            currentDeckTitle.innerText = deckKey;
-            
+        function openDeck(key) {
+            activeDeckKey = key; currentIndex = 0;
+            currentDeckTitle.innerText = key;
             dashboardView.classList.add('hidden');
             studyView.classList.remove('hidden');
-            
             cardElement.classList.remove('is-flipped');
             updateCard();
         }
 
         function showDashboard() {
-            activeDeckKey = null;
             studyView.classList.add('hidden');
             dashboardView.classList.remove('hidden');
             renderDecks();
         }
 
-        // --- STUDY/FLASHCARD CONTROLS ---
         function updateCard() {
-            const currentCards = decksData[activeDeckKey] || [];
-
-            if (currentCards.length === 0) {
-                frontFace.innerText = "This set is empty. Add a card below!";
+            const list = decksData[activeDeckKey] || [];
+            if(list.length === 0) {
+                frontFace.innerText = "Empty deck. Add custom cards below!";
                 backFace.innerText = "Empty";
-                counterElement.innerText = "Card 0 of 0";
+                counterElement.innerText = "0 of 0";
                 return;
             }
-
-            const item = currentCards[currentIndex];
-            frontFace.innerText = item.front;
-            backFace.innerText = item.back;
-            counterElement.innerText = `Card ${currentIndex + 1} of ${currentCards.length}`;
+            frontFace.innerText = list[currentIndex].front;
+            backFace.innerText = list[currentIndex].back;
+            counterElement.innerText = `Card ${currentIndex + 1} of ${list.length}`;
         }
 
-        function flipCard() {
-            const currentCards = decksData[activeDeckKey] || [];
-            if (currentCards.length > 0) {
-                cardElement.classList.toggle('is-flipped');
-            }
-        }
-
-        function nextCard(event) {
-            event.stopPropagation();
-            const currentCards = decksData[activeDeckKey] || [];
-            if (currentCards.length <= 1) return;
-
+        function flipCard() { if((decksData[activeDeckKey]||[]).length > 0) cardElement.classList.toggle('is-flipped'); }
+        function nextCard(e) { e.stopPropagation(); move(1); }
+        function prevCard(e) { e.stopPropagation(); move(-1); }
+        
+        function move(dir) {
+            const len = decksData[activeDeckKey].length;
+            if (len <= 1) return;
             cardElement.classList.remove('is-flipped');
-            setTimeout(() => {
-                currentIndex = (currentIndex + 1) % currentCards.length;
-                updateCard();
-            }, 150);
-        }
-
-        function prevCard(event) {
-            event.stopPropagation();
-            const currentCards = decksData[activeDeckKey] || [];
-            if (currentCards.length <= 1) return;
-
-            cardElement.classList.remove('is-flipped');
-            setTimeout(() => {
-                currentIndex = (currentIndex - 1 + currentCards.length) % currentCards.length;
-                updateCard();
-            }, 150);
+            setTimeout(() => { currentIndex = (currentIndex + dir + len) % len; updateCard(); }, 150);
         }
 
         function addNewCard() {
-            const frontInput = document.getElementById('input-front');
-            const backInput = document.getElementById('input-back');
-            const frontText = frontInput.value.trim();
-            const backText = backInput.value.trim();
-
-            if (!frontText || !backText) {
-                alert("Please fill out both sides of the card!");
-                return;
-            }
-
-            decksData[activeDeckKey].push({ front: frontText, back: backText });
-            saveData();
-
-            frontInput.value = '';
-            backInput.value = '';
-
+            const f = document.getElementById('input-front');
+            const b = document.getElementById('input-back');
+            if(!f.value.trim() || !b.value.trim()) return alert("Fill out both fields!");
+            decksData[activeDeckKey].push({ front: f.value.trim(), back: b.value.trim() });
+            localStorage.setItem('flashcardDecks', JSON.stringify(decksData));
             currentIndex = decksData[activeDeckKey].length - 1;
+            f.value = ''; b.value = '';
             cardElement.classList.remove('is-flipped');
             setTimeout(updateCard, 150);
         }
 
-        function shuffleCards(event) {
-            event.stopPropagation();
-            const currentCards = decksData[activeDeckKey] || [];
-            if (currentCards.length <= 1) return;
-
+        function shuffleCards(e) {
+            e.stopPropagation();
+            const arr = decksData[activeDeckKey];
+            if(!arr || arr.length <= 1) return;
             cardElement.classList.remove('is-flipped');
             setTimeout(() => {
-                for (let i = currentCards.length - 1; i > 0; i--) {
+                for (let i = arr.length - 1; i > 0; i--) {
                     const j = Math.floor(Math.random() * (i + 1));
-                    [currentCards[i], currentCards[j]] = [currentCards[j], currentCards[i]];
+                    [arr[i], arr[j]] = [arr[j], arr[i]];
                 }
-                currentIndex = 0;
-                updateCard();
+                currentIndex = 0; updateCard();
             }, 150);
         }
 
-        function deleteCurrentCard(event) {
-            event.stopPropagation();
-            const currentCards = decksData[activeDeckKey] || [];
-            if (currentCards.length === 0) return;
-
-            if (confirm("Delete this specific card?")) {
+        function deleteCurrentCard(e) {
+            e.stopPropagation();
+            const arr = decksData[activeDeckKey];
+            if(!arr || arr.length === 0) return;
+            if(confirm("Delete this card?")) {
                 cardElement.classList.remove('is-flipped');
                 setTimeout(() => {
-                    currentCards.splice(currentIndex, 1);
-                    saveData();
-
-                    if (currentIndex >= currentCards.length && currentCards.length > 0) {
-                        currentIndex = currentCards.length - 1;
-                    } else if (currentCards.length === 0) {
-                        currentIndex = 0;
-                    }
+                    arr.splice(currentIndex, 1);
+                    localStorage.setItem('flashcardDecks', JSON.stringify(decksData));
+                    if(currentIndex >= arr.length && arr.length > 0) currentIndex = arr.length - 1;
                     updateCard();
                 }, 150);
             }
         }
 
-        // --- UTILITY DATA HELPERS ---
-        function saveData() {
-            localStorage.setItem('flashcardDecks', JSON.stringify(decksData));
-        }
-
-        function escapeHTML(str) {
-            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
-        }
-
-        function escapeJS(str) {
-            return str.replace(/'/g, "\\'").replace(/"/g, '\\"');
-        }
-
-        // Start App
         renderDecks();
-#fab7b7    </script>
+    </script>
 </body>
 </html>
+EOF
