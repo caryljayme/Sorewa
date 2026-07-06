@@ -1,4 +1,4 @@
-cat << 'EOF' > www/index.html
+~mga cute ang batch 72
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,7 +19,7 @@ cat << 'EOF' > www/index.html
             font-family: 'Helvetica Neue', Arial, sans-serif;
             background-color: var(--bg-color);
             margin: 0;
-            padding: 15px;
+            padding: 20px 15px 15px 15px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -27,6 +27,27 @@ cat << 'EOF' > www/index.html
             box-sizing: border-box;
             user-select: none;
             -webkit-user-select: none;
+            position: relative;
+        }
+        /* Dashboard Subheader Style */
+        .batch-subtitle {
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: #7f8c8d;
+            letter-spacing: 0.5px;
+            text-align: center;
+            margin-top: -2px;
+            margin-bottom: 15px;
+        }
+        /* Top Right Corner Author Watermark */
+        .author-watermark {
+            position: absolute;
+            top: 8px;
+            right: 12px;
+            font-size: 0.72rem;
+            font-style: italic;
+            color: #333333;
+            opacity: 0.4;
         }
         h2, h3 { color: #444; margin: 10px 0 5px 0; text-align: center; }
         .counter { font-size: 0.9rem; color: #888; margin-bottom: 10px; }
@@ -116,8 +137,14 @@ cat << 'EOF' > www/index.html
 </head>
 <body>
 
+    <!-- Persistent corner elements -->
+    <div class="author-watermark">made with love ~ caryl</div>
+
     <div id="deck-dashboard-view">
         <h2>📚 My Flashcard Decks</h2>
+        <!-- Moved label right below the dashboard heading -->
+        <div class="batch-subtitle">BATCH 72 - AMAZING PEOPLE</div>
+        
         <div class="panel">
             <h3>➕ Create New Set / Deck</h3>
             <div class="input-group">
@@ -363,7 +390,6 @@ cat << 'EOF' > www/index.html
             decksData = bookLessons;
             localStorage.setItem('flashcardDecks', JSON.stringify(decksData));
         } else {
-            // Smart Merge: Ensure new modules are injected over old caches
             Object.keys(bookLessons).forEach(key => {
                 if (!decksData[key]) {
                     decksData[key] = bookLessons[key];
@@ -453,7 +479,6 @@ cat << 'EOF' > www/index.html
                 return;
             }
             
-            // Format newlines with <br> for structured data representation (Grammar points)
             const formattedFront = list[currentIndex].front.replace(/\n/g, '<br>');
             const formattedBack = list[currentIndex].back.replace(/\n/g, '<br>');
 
@@ -498,18 +523,16 @@ cat << 'EOF' > www/index.html
             
             const currentCard = arr[currentIndex];
             
-            // Use prompts for terminal environment application compatibility
             const newFront = prompt("Edit Front Side (Nihongo/Hint):", currentCard.front);
-            if (newFront === null) return; // User cancelled
+            if (newFront === null) return; 
             
             const newBack = prompt("Edit Back Side (English/Meaning):", currentCard.back);
-            if (newBack === null) return; // User cancelled
+            if (newBack === null) return; 
             
             if (!newFront.trim() || !newBack.trim()) {
                 return alert("Both sides must contain text!");
             }
             
-            // Update reference, save and refresh layout
             currentCard.front = newFront.trim();
             currentCard.back = newBack.trim();
             
