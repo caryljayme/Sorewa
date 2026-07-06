@@ -29,7 +29,7 @@ cat << 'EOF' > www/index.html
             -webkit-user-select: none;
         }
         h2, h3 { color: #444; margin: 10px 0 5px 0; text-align: center; }
-        .counter { font-size: 0.9rem; color: #888; margin-bottom: 15px; }
+        .counter { font-size: 0.9rem; color: #888; margin-bottom: 10px; }
         .hidden { display: none !important; }
         .deck-list {
             width: 100%;
@@ -82,13 +82,14 @@ cat << 'EOF' > www/index.html
             padding: 20px;
             box-sizing: border-box;
             text-align: center;
-            font-size: 1.4rem;
+            font-size: 1.15rem;
             font-weight: 500;
             word-break: break-word;
+            overflow-y: auto;
         }
         .card-front { background-color: var(--card-front); color: var(--text-color); border: 2px solid #e1e8ed; }
         .card-back { background-color: var(--card-back); color: #2c3e50; transform: rotateY(180deg); border: 2px solid var(--primary-color); }
-        .action-bar { display: flex; gap: 10px; margin-bottom: 20px; }
+        .action-bar { display: flex; gap: 8px; margin-bottom: 20px; justify-content: center; width: 320px; }
         .controls { display: flex; gap: 20px; margin-bottom: 30px; }
         button {
             border: none; padding: 10px 20px; font-size: 0.95rem; border-radius: 25px;
@@ -96,8 +97,10 @@ cat << 'EOF' > www/index.html
         }
         button:active { transform: scale(0.95); }
         .btn-blue { background-color: var(--primary-color); color: white; }
-        .btn-orange { background-color: #f39c12; color: white; }
-        .btn-red { background-color: var(--danger-color); color: white; }
+        .btn-orange { background-color: #f39c12; color: white; padding: 10px 15px; }
+        .btn-teal { background-color: #16a085; color: white; padding: 10px 15px; }
+        .btn-purple { background-color: #9b59b6; color: white; margin-bottom: 15px; }
+        .btn-red { background-color: var(--danger-color); color: white; padding: 10px 15px; }
         .btn-green { background-color: var(--success-color); color: white; width: 100%; margin-top: 10px; }
         .btn-sm-red { background-color: var(--danger-color); color: white; padding: 6px 12px; font-size: 0.8rem; border-radius: 12px; }
         .panel {
@@ -128,6 +131,9 @@ cat << 'EOF' > www/index.html
     <div id="study-view" class="hidden">
         <button class="btn-blue" onclick="showDashboard()" style="margin-bottom: 10px;">◀ Back to Decks</button>
         <h2 id="current-deck-title">Deck Name</h2>
+        
+        <button class="btn-purple" id="swap-mode-btn" onclick="toggleLanguageDirection()">🔄 Mode: Nihongo ➔ English</button>
+        
         <div class="counter" id="counter">Card 0 of 0</div>
 
         <div class="flashcard-container" onclick="flipCard()">
@@ -139,7 +145,8 @@ cat << 'EOF' > www/index.html
 
         <div class="action-bar">
             <button class="btn-orange" onclick="shuffleCards(event)">🔀 Shuffle</button>
-            <button class="btn-red" onclick="deleteCurrentCard(event)">🗑️ Delete Card</button>
+            <button class="btn-teal" onclick="editCurrentCard(event)">✏️ Edit Card</button>
+            <button class="btn-red" onclick="deleteCurrentCard(event)">🗑️ Delete</button>
         </div>
 
         <div class="controls">
@@ -202,6 +209,14 @@ cat << 'EOF' > www/index.html
                 { front: "ふべん（な） (不便)", back: "inconvenient" },
                 { front: "べんり（な） (便利)", back: "convenient" }
             ],
+            "Lesson 11 Grammar": [
+                { front: "～がほしいです", back: "Meaning: Expresses a desire for an object (only used for the first person).\nParticle: が\nExample: わたしは つめたい ジュースが ほしいです。 (I want some cold juice.)" },
+                { front: "～は～が すき / きらい / じょうず / へた です", back: "Meaning: Used for stating likes, dislikes, or what a person is good or poor at.\nParticle: は and が\nExample: いもうとは おんがくが すきです。 (My younger sister likes music.)" },
+                { front: "(Reason)～から", back: "Meaning: Indicates a reason or cause (\"because\"). The reason always comes first.\nParticle: から (conjunction)\nExample: きょうは むすこの たんじょうびですから、はやく かえります。 (Because today is my son's birthday, I will go home early.)" },
+                { front: "〜そのまえに / ～Noun のまえに / ～Verb dict. まえに", back: "Meaning: Indicates that an action takes place before a noun or a verb.\nParticle: の (used between Noun and まえに)\nExample: ともだちの いえに いきます。 そのまえに でんわを します。 (I am going to my friend's house. Before that, I will make a phone call.)" },
+                { front: "～ができます (Can do Noun)", back: "Meaning: Expresses what a person can do, potential, or ability regarding a noun.\nParticle: が\nExample: いもうとは おりがみが できます。 (My younger sister can do origami.)" },
+                { front: "V-dict. ことが できます (Can do Verb)", back: "Meaning: Expresses what the subject can do using a dictionary-form verb.\nParticle: が and を\nExample: じょんさんは かんじを よむ ことが できます。 (Mr. John can read kanji.)" }
+            ],
             "Lesson 12": [
                 { front: "なっとう (納豆)", back: "fermented soy bean" },
                 { front: "なまたまご (生卵)", back: "raw egg" },
@@ -240,6 +255,14 @@ cat << 'EOF' > www/index.html
                 { front: "ダメ（な）", back: "no good, useless" },
                 { front: "かならず", back: "be sure to, without fail" }
             ],
+            "Lesson 12 Grammar": [
+                { front: "～ないで ください", back: "Meaning: Used to ask or prohibit someone from doing an action (\"Please don't...\").\nParticle: を\nExample: その ぱそこんを つかわないで ください。 (Please don't use that computer.)" },
+                { front: "～ないで (Without doing Verb)", back: "Meaning: Used when an action is done without doing an expected alternative action.\nParticle: を\nExample: じしょを ひかないで しゅくだいを しました。 (I did my homework without looking at a dictionary.)" },
+                { front: "～なければ なりません / ～なきゃ（ならない）", back: "Meaning: Expresses obligation, duty, or necessity (\"have to do\").\nParticle: が and から\nExample: あした しけんが ありますから べんきょう しなければ なりません。 (Because there is an exam tomorrow, I have to study.)" },
+                { front: "～ないと いけません", back: "Meaning: Expresses a social or personal obligation (\"must do\").\nParticle: に\nExample: はちじに でんしゃに のらないと いけません。 (I must catch the train at 8 o'clock.)" },
+                { front: "～なくても いいです", back: "Meaning: Indicates that there is no obligation to perform an action (\"don't have to\").\nParticle: を\nExample: よる くすりを のまなくても いいです。 (You don't have to take medicine at night.)" },
+                { front: "～もう Counter", back: "Meaning: An adverb used to ask for another set or quantity of an item.\nParticle: None (uses adverb もう)\nExample: もう いちど いってください。 (Please say it one more time.)" }
+            ],
             "Lesson 13": [
                 { front: "いみ (意味)", back: "meaning" },
                 { front: "ごみ", back: "garbage" },
@@ -267,7 +290,7 @@ cat << 'EOF' > www/index.html
                 { front: "たすけます (助けます)", back: "to help" },
                 { front: "つかれます (疲れます)", back: "to get tired" },
                 { front: "みえます (見えます)", back: "can be seen, visible" },
-                { front: "やぜます", back: "to get thin" },
+                { front: "やせます", back: "to get thin" },
                 { front: "わすれます (忘れます)", back: "to forget" },
                 { front: "あんきします (暗記します)", back: "to memorize" },
                 { front: "うんてんします (運転します)", back: "to drive" },
@@ -282,6 +305,56 @@ cat << 'EOF' > www/index.html
                 { front: "いちど／いちども", back: "even once" },
                 { front: "ぜひ", back: "by all means" },
                 { front: "すいぶん", back: "a lot, much, enough" }
+            ],
+            "Lesson 13 Grammar": [
+                { front: "V～た ことが あります", back: "Meaning: Used to express a past experience (\"have done something before\").\nParticle: に and が\nExample: しんかんせんに のった ことが あります。 (I have ridden the bullet train before.)" },
+                { front: "～たら (If)", back: "Meaning: A conditional subordinate conjunction indicating an action takes place after a condition is met.\nParticle: を\nExample: もし、 おかねもちだったら じぶんの ひこうきを かいます。 (If I were rich, I would buy my own airplane.)" },
+                { front: "～たら どうですか", back: "Meaning: Expresses a suggestion or advice (\"why don't you~\" or \"what about doing~\").\nParticle: に\nExample: ぶちょうに そうだんしたら どうですか。 (Why don't you consult with the department manager?)" },
+                { front: "～ほう が いいです / ～ないほう が いいです", back: "Meaning: Expresses a strong suggestion or preference (\"had better do\" or \"had better not do\").\nParticle: を and が\nExample: たばこを すわなほう が いいです。 (You had better not smoke.)" },
+                { front: "～たら いいですか", back: "Meaning: Used to ask for suggestions, opinions, or instructions when unsure what to do.\nParticle: が\nExample: ねつが ありますが、どうしたら いいですか。 (I have a fever, what should I do?)" },
+                { front: "～た あとで", back: "Meaning: Expresses the sequential idea that after one state or action takes place, another follows.\nParticle: を\nExample: ごはんを たべた あとで べんきょうを しました。 (I studied after eating a meal.)" }
+            ],
+            "Lesson 14": [
+                { front: "きんえん (禁煙)", back: "No Smoking" },
+                { front: "かぜ (風)", back: "wind" },
+                { front: "てんきよほう (天気予報)", back: "weather forecast" },
+                { front: "たいふう (台風)", back: "typhoon" },
+                { front: "おんど (温度)", back: "temperature" },
+                { front: "たに (谷)", back: "valley" },
+                { front: "みさき (岬)", back: "cape (geography)" },
+                { front: "かいがん (海岸)", back: "coast, seashore" },
+                { front: "わん (湾)", back: "bay, gulf" },
+                { front: "しま (島)", back: "island" },
+                { front: "かわ (川)", back: "river" },
+                { front: "みずうみ (湖)", back: "lake" },
+                { front: "やま (山)", back: "mountain" },
+                { front: "もり (森)", back: "forest" },
+                { front: "はやし (林)", back: "woods, grove" },
+                { front: "くも (雲)", back: "cloud" },
+                { front: "はれ (晴れ)", back: "fine weather, clear sky" },
+                { front: "あめ (雨)", back: "rain" },
+                { front: "ゆき (雪)", back: "snow" },
+                { front: "ふる (降る)", back: "to fall (rain, snow)" },
+                { front: "くもる (曇る)", back: "to become cloudy" },
+                { front: "はれる (晴れる)", back: "to clear up" },
+                { front: "ふく (吹く)", back: "to blow (wind)" }
+            ],
+            "Lesson 15": [
+                { front: "きそく (規則)", back: "rules, regulations" },
+                { front: "ほうりつ (法律)", back: "law" },
+                { front: "けんぽう (憲法)", back: "constitution" },
+                { front: "じょうやく (条約)", back: "treaty" },
+                { front: "じゆう (自由)", back: "freedom" },
+                { front: "けんり (権利)", back: "rights" },
+                { front: "ぎむ (義務)", back: "obligation, duty" },
+                { front: "せきにん (責任)", back: "responsibility" },
+                { front: "きょか (許可)", back: "permission" },
+                { front: "きんし (禁止)", back: "prohibition" },
+                { front: "ままもる (守る)", back: "to protect, obey, keep (promises)" },
+                { front: "やぶる (破る)", back: "to tear, break (rules/promises)" },
+                { front: "たいほする (逮捕する)", back: "to arrest" },
+                { front: "いはんする (違反する)", back: "to violate" },
+                { front: "ゆるす (許す)", back: "to forgive, permit" }
             ]
         };
 
@@ -289,10 +362,19 @@ cat << 'EOF' > www/index.html
         if (!decksData || Object.keys(decksData).length === 0) {
             decksData = bookLessons;
             localStorage.setItem('flashcardDecks', JSON.stringify(decksData));
+        } else {
+            // Smart Merge: Ensure new modules are injected over old caches
+            Object.keys(bookLessons).forEach(key => {
+                if (!decksData[key]) {
+                    decksData[key] = bookLessons[key];
+                }
+            });
+            localStorage.setItem('flashcardDecks', JSON.stringify(decksData));
         }
 
         let activeDeckKey = null;
         let currentIndex = 0;
+        let isNihongoFirst = true;
 
         const dashboardView = document.getElementById('deck-dashboard-view');
         const studyView = document.getElementById('study-view');
@@ -302,10 +384,11 @@ cat << 'EOF' > www/index.html
         const backFace = document.getElementById('back-face');
         const counterElement = document.getElementById('counter');
         const currentDeckTitle = document.getElementById('current-deck-title');
+        const swapModeBtn = document.getElementById('swap-mode-btn');
 
         function renderDecks() {
             decksContainer.innerHTML = '';
-            Object.keys(decksData).forEach(key => {
+            Object.keys(decksData).sort().forEach(key => {
                 const cardCount = decksData[key].length;
                 const deckItem = document.createElement('div');
                 deckItem.className = 'deck-item';
@@ -354,6 +437,13 @@ cat << 'EOF' > www/index.html
             renderDecks();
         }
 
+        function toggleLanguageDirection() {
+            isNihongoFirst = !isNihongoFirst;
+            swapModeBtn.innerText = isNihongoFirst ? "🔄 Mode: Nihongo ➔ English" : "🔄 Mode: English ➔ Nihongo";
+            cardElement.classList.remove('is-flipped');
+            setTimeout(updateCard, 150);
+        }
+
         function updateCard() {
             const list = decksData[activeDeckKey] || [];
             if(list.length === 0) {
@@ -362,8 +452,19 @@ cat << 'EOF' > www/index.html
                 counterElement.innerText = "0 of 0";
                 return;
             }
-            frontFace.innerText = list[currentIndex].front;
-            backFace.innerText = list[currentIndex].back;
+            
+            // Format newlines with <br> for structured data representation (Grammar points)
+            const formattedFront = list[currentIndex].front.replace(/\n/g, '<br>');
+            const formattedBack = list[currentIndex].back.replace(/\n/g, '<br>');
+
+            if (isNihongoFirst) {
+                frontFace.innerHTML = formattedFront;
+                backFace.innerHTML = formattedBack;
+            } else {
+                frontFace.innerHTML = formattedBack;
+                backFace.innerHTML = formattedFront;
+            }
+            
             counterElement.innerText = `Card ${currentIndex + 1} of ${list.length}`;
         }
 
@@ -388,6 +489,32 @@ cat << 'EOF' > www/index.html
             f.value = ''; b.value = '';
             cardElement.classList.remove('is-flipped');
             setTimeout(updateCard, 150);
+        }
+
+        function editCurrentCard(e) {
+            e.stopPropagation();
+            const arr = decksData[activeDeckKey];
+            if (!arr || arr.length === 0) return;
+            
+            const currentCard = arr[currentIndex];
+            
+            // Use prompts for terminal environment application compatibility
+            const newFront = prompt("Edit Front Side (Nihongo/Hint):", currentCard.front);
+            if (newFront === null) return; // User cancelled
+            
+            const newBack = prompt("Edit Back Side (English/Meaning):", currentCard.back);
+            if (newBack === null) return; // User cancelled
+            
+            if (!newFront.trim() || !newBack.trim()) {
+                return alert("Both sides must contain text!");
+            }
+            
+            // Update reference, save and refresh layout
+            currentCard.front = newFront.trim();
+            currentCard.back = newBack.trim();
+            
+            localStorage.setItem('flashcardDecks', JSON.stringify(decksData));
+            updateCard();
         }
 
         function shuffleCards(e) {
