@@ -4,22 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Multi-Deck Study Companion</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #4a90e2;
-            --success-color: #2ecc71;
-            --danger-color: #e74c3c;
-            --bg-color: #f5f7fa;
-            --card-front: #ffffff;
-            --card-back: #eef5fc;
-            --text-color: #333333;
-            --sidebar-width: 260px;
-            --highlight-bg: #fff9db;
-            --highlight-border: #f59f00;
+            --bg-main: #0f172a;
+            --bg-sidebar: #1e293b;
+            --bg-card: #1e293b;
+            --bg-card-hover: #334155;
+            --bg-input: #0f172a;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+            
+            --primary: #38bdf8;
+            --primary-hover: #0ea5e9;
+            --success: #34d399;
+            --success-hover: #10b981;
+            --danger: #f87171;
+            --danger-hover: #ef4444;
+            --warning: #fbbf24;
+            --purple: #c084fc;
+            --purple-hover: #a855f7;
+            
+            --sidebar-width: 280px;
+            --radius-lg: 16px;
+            --radius-md: 12px;
+            --radius-sm: 8px;
+            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
+
         body {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            background-color: var(--bg-color);
+            font-family: 'Plus Jakarta Sans', Arial, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
             margin: 0;
             padding: 0;
             display: flex;
@@ -29,6 +48,26 @@
             -webkit-user-select: none;
         }
         
+        * {
+            box-sizing: border-box;
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-main);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-muted);
+        }
+
         /* Layout Container */
         .app-container {
             display: flex;
@@ -39,63 +78,84 @@
         /* Sidebar Styling */
         .sidebar {
             width: var(--sidebar-width);
-            background-color: #2c3e50;
-            color: white;
-            padding: 20px 15px;
+            background-color: var(--bg-sidebar);
+            border-right: 1px solid var(--border-color);
+            padding: 24px 16px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            gap: 8px;
             z-index: 1000;
-            transition: transform 0.3s ease;
+            transition: var(--transition);
         }
+        
         .sidebar h2 {
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-            text-align: center;
-            border-bottom: 1px solid #34495e;
-            padding-bottom: 10px;
-            color: #ecf0f1;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin: 0 0 24px 0;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
+
         .category-btn {
             background: none;
             border: none;
-            color: #bdc3c7;
-            padding: 14px 15px;
+            color: var(--text-muted);
+            padding: 14px 16px;
             text-align: left;
-            border-radius: 8px;
+            border-radius: var(--radius-md);
             cursor: pointer;
-            font-size: 1rem;
-            font-weight: bold;
-            transition: all 0.2s ease;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: none;
         }
+
         .category-btn:hover {
-            background-color: #34495e;
-            color: white;
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--text-main);
         }
+
         .category-btn.active {
-            background-color: var(--primary-color);
-            color: white;
+            background-color: rgba(56, 189, 248, 0.15);
+            color: var(--primary);
+            font-weight: 600;
+            border-left: 4px solid var(--primary);
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin-left: -16px;
+            padding-left: 28px;
         }
 
         /* Floating Toggle Button for Mobile Menu */
         .menu-toggle-btn {
             display: none;
             position: fixed;
-            bottom: 20px;
-            left: 20px;
-            background-color: #2c3e50;
-            color: white;
+            bottom: 24px;
+            left: 24px;
+            background-color: var(--primary);
+            color: var(--bg-main);
             border: none;
-            padding: 12px 20px;
+            padding: 14px 24px;
             border-radius: 30px;
             font-size: 0.95rem;
-            font-weight: bold;
+            font-weight: 700;
             z-index: 1100;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+            box-shadow: 0 8px 24px rgba(56, 189, 248, 0.3);
             align-items: center;
             gap: 8px;
             cursor: pointer;
+            transition: var(--transition);
+        }
+        .menu-toggle-btn:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
         }
 
         /* Backdrop Overlay */
@@ -106,7 +166,9 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
             z-index: 999;
         }
         .sidebar-overlay.show {
@@ -116,142 +178,151 @@
         /* Main Content Styling */
         .main-content {
             flex-grow: 1;
-            padding: 30px 20px;
+            padding: 40px;
             display: flex;
             flex-direction: column;
             align-items: center;
             position: relative;
             overflow-y: auto;
+            height: 100vh;
             width: 100%;
-            box-sizing: border-box;
         }
 
         .batch-subtitle {
-            font-size: 0.85rem;
-            font-weight: bold;
-            color: #7f8c8d;
-            letter-spacing: 0.5px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: 2px;
             text-align: center;
-            margin-top: -2px;
-            margin-bottom: 15px;
+            margin-bottom: 24px;
+            text-transform: uppercase;
+            background: rgba(56, 189, 248, 0.1);
+            padding: 6px 16px;
+            border-radius: 20px;
+            display: inline-block;
         }
+
         .author-watermark {
             position: absolute;
-            top: 8px;
-            right: 12px;
-            font-size: 0.72rem;
-            font-style: italic;
-            color: #333333;
-            opacity: 0.4;
+            top: 16px;
+            right: 24px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            opacity: 0.5;
+            letter-spacing: 0.5px;
         }
-        h2, h3 { color: #444; margin: 10px 0 5px 0; text-align: center; }
-        .counter { font-size: 0.9rem; color: #888; margin-bottom: 10px; }
+
+        h2 { font-size: 1.8rem; font-weight: 700; color: var(--text-main); margin: 0 0 8px 0; text-align: center; }
+        h3 { font-size: 1.2rem; font-weight: 600; color: var(--text-main); margin: 0 0 16px 0; }
+        .counter { font-size: 0.9rem; font-weight: 600; color: var(--text-muted); margin-bottom: 16px; letter-spacing: 0.5px; }
         .hidden { display: none !important; }
         
+        /* Dashboard Cards Setup */
         .deck-list {
-            width: 100%;
-            max-width: 450px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-top: 15px;
-        }
-        .deck-item {
-            background: white;
-            padding: 15px;
-            border-radius: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-            border: 1px solid #e1e8ed;
-        }
-        .deck-info { cursor: pointer; flex-grow: 1; }
-        .deck-name { font-weight: bold; font-size: 1.1rem; color: #2c3e50; }
-        .deck-count { font-size: 0.85rem; color: #777; margin-top: 2px; }
-        
-        /* Note Style Layout Elements */
-        .notes-container {
             width: 100%;
             max-width: 500px;
             display: flex;
             flex-direction: column;
-            gap: 25px;
-            margin-top: 15px;
-            margin-bottom: 30px;
+            gap: 12px;
+            margin-top: 20px;
         }
-        .note-block {
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.05);
-            border: 1px solid #e1e8ed;
-            overflow: hidden;
-            position: relative;
+        .deck-item {
+            background: var(--bg-card);
+            padding: 20px;
+            border-radius: var(--radius-lg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
         }
-        .note-topic-header {
-            background-color: #ebf5ff;
-            border-left: 5px solid var(--primary-color);
-            padding: 15px;
-            font-size: 1.25rem;
-            font-weight: bold;
-            color: #1e3a8a;
-            word-break: break-word;
+        .deck-item:hover {
+            transform: translateY(-2px);
+            background-color: var(--bg-card-hover);
+            border-color: rgba(56, 189, 248, 0.4);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
         }
-        .note-body {
-            padding: 18px;
+        .deck-info { cursor: pointer; flex-grow: 1; }
+        .deck-name { font-weight: 600; font-size: 1.1rem; color: var(--text-main); }
+        .deck-count { font-size: 0.85rem; color: var(--text-muted); margin-top: 4px; font-weight: 500; }
+        
+        /* Grammar Note Block Engine */
+        .notes-container {
+            width: 100%;
+            max-width: 550px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            font-size: 0.98rem;
-            color: #4b5563;
-            line-height: 1.5;
+            gap: 24px;
+            margin: 20px 0 30px 0;
+        }
+        .note-block {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .note-topic-header {
+            background-color: rgba(56, 189, 248, 0.08);
+            border-bottom: 1px solid var(--border-color);
+            padding: 18px 20px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        .note-body {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            font-size: 0.95rem;
+            line-height: 1.6;
         }
         .note-section {
-            border-bottom: 1px dashed #f3f4f6;
-            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            padding-bottom: 14px;
         }
         .note-section:last-child {
             border-bottom: none;
             padding-bottom: 0;
         }
         .note-label {
-            font-weight: bold;
+            font-weight: 700;
             text-transform: uppercase;
-            font-size: 0.78rem;
-            letter-spacing: 0.5px;
-            color: #9ca3af;
-            margin-bottom: 3px;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-bottom: 6px;
         }
         .note-text {
-            color: #1f2937;
+            color: rgba(248, 250, 252, 0.95);
             white-space: pre-line;
         }
         .note-actions {
-            background: #f9fafb;
-            padding: 10px 15px;
+            background: rgba(15, 23, 42, 0.3);
+            padding: 12px 20px;
             display: flex;
             justify-content: flex-end;
-            gap: 10px;
-            border-top: 1px solid #f3f4f6;
+            gap: 8px;
+            border-top: 1px solid var(--border-color);
         }
 
-        /* Flashcard Container Elements */
+        /* 3D Flashcard Module Component */
         .flashcard-container {
             width: 100%;
-            max-width: 420px;
-            height: 260px;
-            perspective: 1000px;
+            max-width: 440px;
+            height: 280px;
+            perspective: 1200px;
             cursor: pointer;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
         .flashcard {
             width: 100%;
             height: 100%;
             position: relative;
             transform-style: preserve-3d;
-            transition: transform 0.4s ease;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-            border-radius: 15px;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .flashcard.is-flipped { transform: rotateY(180deg); }
         .card-face {
@@ -260,69 +331,183 @@
             height: 100%;
             backface-visibility: hidden;
             -webkit-backface-visibility: hidden;
-            border-radius: 15px;
+            border-radius: var(--radius-lg);
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 20px;
-            box-sizing: border-box;
+            padding: 32px;
             text-align: center;
-            font-size: 1.3rem;
-            font-weight: 500;
+            font-size: 1.4rem;
+            font-weight: 600;
+            line-height: 1.5;
             word-break: break-word;
             overflow-y: auto;
+            box-shadow: 0 12px 32px rgba(0,0,0,0.25);
         }
-        .card-front { background-color: var(--card-front); color: var(--text-color); border: 2px solid #e1e8ed; }
-        .card-back { background-color: var(--card-back); color: #2c3e50; transform: rotateY(180deg); border: 2px solid var(--primary-color); }
+        .card-front { 
+            background-color: var(--bg-card); 
+            color: var(--text-main); 
+            border: 2px solid var(--border-color); 
+        }
+        .card-back { 
+            background-color: #1e293b; 
+            color: var(--primary); 
+            transform: rotateY(180deg); 
+            border: 2px solid var(--primary); 
+        }
         
-        .action-bar { display: flex; gap: 10px; margin-bottom: 20px; justify-content: center; width: 100%; max-width: 420px; }
-        .controls { display: flex; gap: 20px; margin-bottom: 30px; width: 100%; max-width: 420px; justify-content: space-between; }
+        /* Interfaces Control Elements */
+        .action-bar { display: flex; gap: 12px; margin-bottom: 16px; justify-content: center; width: 100%; max-width: 440px; }
+        .controls { display: flex; gap: 16px; margin-bottom: 24px; width: 100%; max-width: 440px; justify-content: space-between; }
         .controls button { flex: 1; padding: 14px; }
         
         button, .category-btn {
-            border: none; padding: 12px 20px; font-size: 0.95rem; border-radius: 25px;
-            cursor: pointer; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.1s;
+            border: none; padding: 12px 24px; font-size: 0.95rem; border-radius: var(--radius-md);
+            cursor: pointer; font-weight: 600; font-family: inherit; transition: var(--transition);
         }
-        button:active { transform: scale(0.95); }
-        .btn-blue { background-color: var(--primary-color); color: white; }
-        .btn-orange { background-color: #f39c12; color: white; flex: 1; }
-        .btn-teal { background-color: #16a085; color: white; flex: 1; }
-        .btn-purple { background-color: #9b59b6; color: white; margin-bottom: 15px; width: 100%; max-width: 420px; }
-        .btn-red { background-color: var(--danger-color); color: white; flex: 1; }
-        .btn-green { background-color: var(--success-color); color: white; width: 100%; margin-top: 10px; padding: 14px; }
-        .btn-sm-red { background-color: var(--danger-color); color: white; padding: 8px 14px; font-size: 0.85rem; border-radius: 12px; box-shadow: none; }
+        button:active { transform: scale(0.98); }
         
+        .btn-blue { background-color: var(--primary); color: var(--bg-main); }
+        .btn-blue:hover { background-color: var(--primary-hover); }
+        
+        .btn-orange { background-color: rgba(251, 191, 36, 0.1); color: var(--warning); border: 1px solid rgba(251, 191, 36, 0.3); }
+        .btn-orange:hover { background-color: rgba(251, 191, 36, 0.2); }
+        
+        .btn-teal { background-color: rgba(56, 189, 248, 0.1); color: var(--primary); border: 1px solid rgba(56, 189, 248, 0.3); flex: 1; }
+        .btn-teal:hover { background-color: rgba(56, 189, 248, 0.2); }
+        
+        .btn-purple { background-color: var(--purple); color: var(--bg-main); margin-bottom: 16px; width: 100%; max-width: 440px; }
+        .btn-purple:hover { background-color: var(--purple-hover); }
+        
+        .btn-red { background-color: rgba(248, 113, 113, 0.1); color: var(--danger); border: 1px solid rgba(248, 113, 113, 0.3); flex: 1; }
+        .btn-red:hover { background-color: rgba(248, 113, 113, 0.2); }
+        
+        .btn-green { background-color: var(--success); color: var(--bg-main); width: 100%; margin-top: 12px; padding: 14px; border-radius: var(--radius-md); }
+        .btn-green:hover { background-color: var(--success-hover); }
+        
+        .btn-sm-red { background-color: rgba(248, 113, 113, 0.15); color: var(--danger); padding: 8px 16px; font-size: 0.85rem; border-radius: var(--radius-sm); border: 1px solid rgba(248, 113, 113, 0.2); }
+        .btn-sm-red:hover { background-color: var(--danger); color: var(--bg-main); }
+        
+        /* Central Panels Structuring */
         .panel {
-            width: 100%; max-width: 420px; background: white; padding: 20px; border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05); box-sizing: border-box; margin-top: 15px;
+            width: 100%; max-width: 500px; background: var(--bg-sidebar); padding: 24px; border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color); box-sizing: border-box; margin-top: 16px;
         }
-        .input-group { margin-bottom: 12px; }
-        .input-group label { display: block; font-size: 0.85rem; color: #777; margin-bottom: 6px; }
-        input[type="text"], textarea {
-            width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 1rem; font-family: inherit;
+        .input-group { margin-bottom: 16px; }
+        .input-group label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+        
+        input[type="text"], textarea, select {
+            width: 100%; padding: 12px 16px; background-color: var(--bg-input); border: 1px solid var(--border-color); 
+            border-radius: var(--radius-md); color: var(--text-main); font-size: 1rem; font-family: inherit; transition: var(--transition);
+        }
+        input[type="text"]:focus, textarea:focus, select:focus {
+            outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
         }
 
-        /* Tablet and Phone Responsive Overrides */
-        @media (max-width: 820px) {
+        /* --- KANA MODULE GRAPHICS SYSTEM --- */
+        .kana-tabs {
+            display: flex; gap: 12px; margin-bottom: 24px; width: 100%; max-width: 600px;
+        }
+        .kana-tabs button { flex: 1; padding: 14px; }
+        
+        .chart-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            width: 100%;
+            max-width: 600px;
+            background: var(--bg-sidebar);
+            padding: 20px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+        }
+        .chart-cell {
+            background: var(--bg-main);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 12px 6px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            transition: var(--transition);
+        }
+        .chart-cell .jp { font-size: 1.6rem; font-weight: 700; color: var(--text-main); }
+        .chart-cell .ro { font-size: 0.75rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+        .chart-cell:not(.empty):hover {
+            transform: scale(1.05);
+            border-color: var(--primary);
+            background-color: var(--bg-card-hover);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        .chart-cell.empty { background: transparent; border: none; }
+        
+        /* Quiz Interface Elements */
+        .quiz-choice-btn {
+            width: 100%; padding: 16px; margin-bottom: 12px; border-radius: var(--radius-md);
+            font-size: 1.1rem; font-weight: 500; background: var(--bg-card); color: var(--text-main);
+            border: 1px solid var(--border-color); text-align: center; transition: var(--transition);
+        }
+        .quiz-choice-btn:hover {
+            background: var(--bg-card-hover); border-color: var(--primary); transform: translateY(-1px);
+        }
+        
+        /* Results Table Graphic Design */
+        .review-table { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 16px; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--border-color); }
+        .review-table th, .review-table td { padding: 14px 12px; text-align: center; font-size: 0.95rem; }
+        .review-table th { background: var(--bg-main); color: var(--text-muted); font-weight: 600; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.5px; border-bottom: 1px solid var(--border-color); }
+        .review-table td { border-bottom: 1px solid var(--border-color); }
+        .review-table tr:last-child td { border-bottom: none; }
+        
+        .correct-row { background-color: rgba(52, 211, 153, 0.12); color: #a7f3d0; }
+        .wrong-row { background-color: rgba(248, 113, 113, 0.12); color: #fca5a5; }
+
+        /* --- NEW NOTES/LIST VIEW FOR VOCABULARY CATEGORIES --- */
+        .table-container { 
+            width: 100%; 
+            max-width: 550px;
+            overflow-x: auto; 
+            margin: 10px 0 30px 0; 
+            border-radius: var(--radius-lg); 
+            border: 1px solid var(--border-color); 
+            background: var(--bg-card); 
+        }
+        .vocab-table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            min-width: 450px; 
+        }
+        .vocab-table th, .vocab-table td { 
+            padding: 14px 16px; 
+            text-align: left; 
+            border-bottom: 1px solid var(--border-color); 
+        }
+        .vocab-table th { 
+            background: rgba(56, 189, 248, 0.08); 
+            color: var(--primary); 
+            font-weight: 700; 
+            font-size: 0.8rem; 
+            text-transform: uppercase; 
+            letter-spacing: 0.5px; 
+        }
+        .vocab-table tr:last-child td { border-bottom: none; }
+        .vocab-table td { font-size: 0.95rem; vertical-align: middle; }
+        .v-kanji { font-size: 1.2rem; font-weight: 700; color: var(--text-main); }
+        .v-furi { color: var(--text-muted); font-size: 0.85rem; }
+        .v-romaji { font-style: italic; color: #a7f3d0; font-size: 0.85rem; }
+        .v-english { color: var(--text-main); }
+
+        /* Responsive Overrides */
+        @media (max-width: 890px) {
             .menu-toggle-btn { display: flex; }
-            
             .sidebar { 
-                position: fixed; 
-                top: 0; 
-                left: 0; 
-                height: 100vh; 
-                transform: translateX(-100%);
-                box-sizing: border-box;
+                position: fixed; top: 0; left: 0; height: 100vh; 
+                transform: translateX(-100%); box-shadow: 10px 0 30px rgba(0,0,0,0.5);
             }
-            .sidebar.open {
-                transform: translateX(0);
-            }
-            .main-content {
-                padding: 20px 15px 90px 15px;
-            }
-            .flashcard-container {
-                height: 230px;
-            }
+            .sidebar.open { transform: translateX(0); }
+            .main-content { padding: 24px 16px 100px 16px; height: auto; min-height: 100vh; }
+            .flashcard-container { height: 240px; }
         }
     </style>
 </head>
@@ -332,7 +517,7 @@
         <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
 
         <button class="menu-toggle-btn" onclick="toggleSidebar()">
-            <span>📂</span> Categories
+            📂 Categories
         </button>
 
         <div class="sidebar" id="sidebar-menu">
@@ -340,16 +525,27 @@
             <button class="category-btn active" onclick="handleCategorySwitch('grammar')">Topic and Grammar</button>
             <button class="category-btn" onclick="handleCategorySwitch('vocabs')">Vocabs</button>
             <button class="category-btn" onclick="handleCategorySwitch('kanji')">Kanji</button>
+            <button class="category-btn" onclick="handleCategorySwitch('time')">⏰ Time & Calendars</button>
+            <button class="category-btn" onclick="handleCategorySwitch('numbers')">🔢 Counting Numbers</button>
+            <button class="category-btn" onclick="handleCategorySwitch('kana')">🇯🇵 Kana Charts & Quiz</button>
         </div>
 
         <div class="main-content">
             <div class="author-watermark">made with love ~ caryl</div>
 
+            <!-- STANDARD DECKS DASHBOARD VIEW -->
             <div id="deck-dashboard-view" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
                 <h2 id="category-title">📚 Topic and Grammar Notes</h2>
                 <div class="batch-subtitle">BATCH 72 - AMAZING PEOPLE</div>
                 
-                <div class="panel">
+                <!-- Specialized Dashboard Action Buttons for Time/Numbers/Kanji Quiz Injection -->
+                <div id="category-quiz-injection-panel" class="panel hidden" style="text-align: center; margin-bottom: 15px; border-color: var(--primary);">
+                    <h3 style="margin-top:0;">🎯 Category Training Game</h3>
+                    <p style="font-size:0.9rem; color:var(--text-muted);">Ready to test your knowledge on this entire set section?</p>
+                    <button class="btn-purple" style="margin-bottom:0;" onclick="launchCategorySpecializedQuiz()">Launch Category Quiz</button>
+                </div>
+
+                <div class="panel" id="creation-panel">
                     <h3 id="panel-creation-title">➕ Create New Lesson Section</h3>
                     <div class="input-group">
                         <input type="text" id="input-deck-name" placeholder="e.g., Lesson 14 Extra">
@@ -359,11 +555,113 @@
                 <div class="deck-list" id="decks-container"></div>
             </div>
 
+            <!-- KANA CHARTS & CONFIGURATION VIEW -->
+            <div id="kana-dashboard-view" class="hidden" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+                <h2>🇯🇵 Kana Reference & Training Center</h2>
+                <div class="batch-subtitle">MASTER HIRAGANA & KATAKANA</div>
+
+                <div class="kana-tabs">
+                    <button class="btn-blue" onclick="switchKanaTab('hiragana')">Hiragana Chart</button>
+                    <button class="btn-blue" onclick="switchKanaTab('katakana')">Katakana Chart</button>
+                </div>
+
+                <!-- Live Dynamic Chart Display Grid -->
+                <div class="chart-grid" id="kana-chart-display"></div>
+
+                <!-- Quiz Generator Setup Panel -->
+                <div class="panel" style="margin-top: 25px;">
+                    <h3>🎯 Start a Practice Quiz</h3>
+                    <div class="input-group">
+                        <label for="quiz-deck-select">Choose Writing System Set</label>
+                        <select id="quiz-deck-select">
+                            <option value="hiragana">Whole Hiragana</option>
+                            <option value="katakana">Whole Katakana</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="quiz-size-select">Number of Questions</label>
+                        <select id="quiz-size-select">
+                            <option value="10">10 Items</option>
+                            <option value="20">20 Items</option>
+                            <option value="30">30 Items</option>
+                            <option value="all">Whole Set System</option>
+                        </select>
+                    </div>
+                    <button class="btn-green" onclick="initiateQuizGame()">Launch Practice Game</button>
+                </div>
+            </div>
+
+            <!-- QUIZ RUNTIME INTERFACE ZONE -->
+            <div id="quiz-game-view" class="hidden" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+                <button class="btn-blue" onclick="exitQuizToDashboard()" style="margin-bottom: 24px; width: 100%; max-width: 440px;">◀ Quit Quiz</button>
+                <h2 id="quiz-title-header">Quiz Game</h2>
+                <div class="counter" id="quiz-progress-counter">Question 0 of 0</div>
+                <div class="counter" id="quiz-score-counter" style="color: var(--success); font-weight: bold;">Score: 0</div>
+
+                <div class="flashcard-container" style="cursor: default; height: 180px;">
+                    <div class="flashcard">
+                        <div class="card-face card-front" id="quiz-question-character" style="font-size: 2rem; font-weight: bold; padding:10px;">あ</div>
+                    </div>
+                </div>
+
+                <div style="width: 100%; max-width: 440px;" id="quiz-choices-box">
+                    <!-- Dynamic Answer Choices Hooked Here -->
+                </div>
+            </div>
+
+            <!-- QUIZ HISTORICAL RESULTS SUMMARY VIEW -->
+            <div id="quiz-results-view" class="hidden" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+                <h2>🏁 Quiz Summary Report</h2>
+                <div class="panel" style="text-align: center;">
+                    <h1 id="results-score-text" style="color: var(--primary); font-size: 3.5rem; margin: 10px 0;">0 / 0</h1>
+                    <p id="results-percentage" style="font-weight: bold; font-size: 1.2rem; margin-bottom: 24px;">0% Passed</p>
+                    <button class="btn-blue" onclick="exitQuizToDashboard()">Return</button>
+                </div>
+
+                <div class="panel" style="max-width: 600px; width: 100%;">
+                    <h3>📋 Detailed Answer Breakdown</h3>
+                    <table class="review-table">
+                        <thead>
+                            <tr>
+                                <th>Item Target</th>
+                                <th>Your Choice</th>
+                                <th>Correct Solution</th>
+                                <th>Result</th>
+                            </tr>
+                        </thead>
+                        <tbody id="quiz-review-tbody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- GENERAL STUDY VIEW (FLASHCARDS & NOTES GENERATOR) -->
             <div id="study-view" class="hidden" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
-                <button class="btn-blue" onclick="showDashboard()" style="margin-bottom: 15px; width: 100%; max-width: 420px;">◀ Back to Lessons</button>
+                <button class="btn-blue" id="back-to-lessons-btn" onclick="showDashboard()" style="margin-bottom: 12px; width: 100%; max-width: 440px;">◀ Back to Lessons</button>
+                
+                <div style="display:flex; gap: 10px; width: 100%; max-width: 440px; margin-bottom: 24px;">
+                    <button class="btn-orange hidden" id="view-toggle-btn" onclick="toggleStudyViewMode()" style="flex:1;">📖 Read as Notes</button>
+                    <!-- NEW: Deck Quiz Button -->
+                    <button class="btn-green hidden" id="deck-quiz-btn" onclick="showDeckQuizSettings()" style="flex:1;">🎯 Play Deck Quiz</button>
+                </div>
+
                 <h2 id="current-deck-title">Lesson Section</h2>
                 
-                <div id="flashcard-study-zone">
+                <!-- NEW: Deck Quiz Settings Panel -->
+                <div id="deck-quiz-settings-zone" class="panel hidden" style="width: 100%; max-width: 440px; text-align: center; margin-bottom: 20px; border-color: var(--success);">
+                    <h3 style="margin-top:0;">🎯 Deck Quiz Setup</h3>
+                    <div class="input-group" style="text-align: left;">
+                        <label>Select Quiz Mode</label>
+                        <select id="deck-quiz-mode-select">
+                            <option value="kanji-eng">Kanji ➔ English</option>
+                            <option value="eng-kanji">English ➔ Kanji</option>
+                            <option value="kanji-furi-eng">Kanji ➔ Furigana & English</option>
+                        </select>
+                    </div>
+                    <button class="btn-green" onclick="startDeckQuiz()" style="margin-top: 5px;">Launch Quiz!</button>
+                    <button class="btn-red" style="margin-top: 10px; width: 100%; padding: 14px; border-radius: var(--radius-md);" onclick="cancelDeckQuizSettings()">Cancel</button>
+                </div>
+
+                <div id="flashcard-study-zone" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
                     <button class="btn-purple" id="swap-mode-btn" onclick="toggleLanguageDirection()">🔄 Mode: Nihongo ➔ English</button>
                     <div class="counter" id="counter">Card 0 of 0</div>
 
@@ -374,8 +672,8 @@
                         </div>
                     </div>
 
-                    <div class="action-bar">
-                        <button class="btn-orange" onclick="shuffleCards(event)">🔀 Shuffle</button>
+                    <div class="action-bar" id="flashcard-action-bar">
+                        <button class="btn-orange" onclick="shuffleCards(event)" style="flex: 1;">🔀 Shuffle</button>
                         <button class="btn-teal" onclick="editCurrentCard(event)">✏️ Edit</button>
                         <button class="btn-red" onclick="deleteCurrentCard(event)">🗑️ Delete</button>
                     </div>
@@ -386,6 +684,10 @@
                     </div>
                 </div>
 
+                <!-- NEW: Table Notes Study Zone -->
+                <div id="list-study-zone" class="hidden" style="width: 100%; max-width: 550px;"></div>
+
+                <!-- EXISTING: Grammar Notes Study Zone -->
                 <div id="notes-study-zone" class="notes-container hidden"></div>
 
                 <div class="panel" id="add-item-panel">
@@ -405,6 +707,35 @@
     </div>
 
     <script>
+        // --- IMMUTABLE NATIVE KANA ENGINE CONSTANTS ---
+        const HIRAGANA_DATA = [
+            {front:"あ", back:"a"}, {front:"い", back:"i"}, {front:"う", back:"u"}, {front:"え", back:"e"}, {front:"お", back:"o"},
+            {front:"か", back:"ka"}, {front:"き", back:"ki"}, {front:"く", back:"ku"}, {front:"け", back:"ke"}, {front:"こ", back:"ko"},
+            {front:"さ", back:"sa"}, {front:"し", back:"shi"}, {front:"す", back:"su"}, {front:"せ", back:"se"}, {front:"そ", back:"so"},
+            {front:"た", back:"ta"}, {front:"ち", back:"chi"}, {front:"つ", back:"tsu"}, {front:"て", back:"te"}, {front:"と", back:"to"},
+            {front:"な", back:"na"}, {front:"に", back:"ni"}, {front:"ぬ", back:"nu"}, {front:"ね", back:"ne"}, {front:"の", back:"no"},
+            {front:"は", back:"ha"}, {front:"ひ", back:"hi"}, {front:"ふ", back:"fu"}, {front:"へ", back:"he"}, {front:"ほ", back:"ho"},
+            {front:"ま", back:"ma"}, {front:"み", back:"mi"}, {front:"む", back:"mu"}, {front:"め", back:"me"}, {front:"も", back:"mo"},
+            {front:"や", back:"ya"}, {front:"", back:""},     {front:"ゆ", back:"yu"}, {front:"", back:""},     {front:"よ", back:"yo"},
+            {front:"ら", back:"ra"}, {front:"り", back:"ri"}, {front:"る", back:"ru"}, {front:"れ", back:"re"}, {front:"ろ", back:"ro"},
+            {front:"わ", back:"wa"}, {front:"", back:""},     {front:"", back:""},     {front:"", back:""},     {front:"を", back:"wo"},
+            {front:"ん", back:"n"}
+        ];
+
+        const KATAKANA_DATA = [
+            {front:"ア", back:"a"}, {front:"イ", back:"i"}, {front:"ウ", back:"u"}, {front:"エ", back:"e"}, {front:"オ", back:"o"},
+            {front:"カ", back:"ka"}, {front:"キ", back:"ki"}, {front:"ク", back:"ku"}, {front:"ケ", back:"ke"}, {front:"コ", back:"ko"},
+            {front:"サ", back:"sa"}, {front:"し", back:"shi"}, {front:"ス", back:"su"}, {front:"セ", back:"se"}, {front:"ソ", back:"so"},
+            {front:"タ", back:"ta"}, {front:"チ", back:"chi"}, {front:"ツ", back:"tsu"}, {front:"テ", back:"te"}, {front:"ト", back:"to"},
+            {front:"ナ", back:"na"}, {front:"ニ", back:"ni"}, {front:"ヌ", back:"nu"}, {front:"ネ", back:"ne"}, {front:"ノ", back:"no"},
+            {front:"ハ", back:"ha"}, {front:"ヒ", back:"hi"}, {front:"フ", back:"fu"}, {front:"へ", back:"he"}, {front:"ホ", back:"ho"},
+            {front:"マ", back:"ma"}, {front:"ミ", back:"mi"}, {front:"ム", back:"mu"}, {front:"メ", back:"me"}, {front:"モ", back:"mo"},
+            {front:"ヤ", back:"ya"}, {front:"", back:""},     {front:"ユ", back:"yu"}, {front:"", back:""},     {front:"よ", back:"yo"},
+            {front:"ラ", back:"ra"}, {front:"り", back:"ri"}, {front:"る", back:"ru"}, {front:"レ", back:"re"}, {front:"ろ", back:"ro"},
+            {front:"ワ", back:"wa"}, {front:"", back:""},     {front:"", back:""},     {front:"", back:""},     {front:"ヲ", back:"wo"},
+            {front:"ン", back:"n"}
+        ];
+
         const bookLessons = {
             grammar: {
                 "Lesson 11 Grammar": [
@@ -433,162 +764,12 @@
                 ]
             },
             vocabs: {
-                "Lesson 11 Vocabs": [
-                    { front: "しょうらい (将来)", back: "future" },
-                    { front: "かいもの (買い物)", back: "shopping" },
-                    { front: "ドレス", back: "dress" },
-                    { front: "ゆかた (浴衣)", back: "yukata (informal kimono)" },
-                    { front: "にんぎょう (人形)", back: "doll" },
-                    { front: "ドライバー", back: "screw driver" },
-                    { front: "はさみ", back: "scissors" },
-                    { front: "カレンダー", back: "calendar" },
-                    { front: "ポスター", back: "poster" },
-                    { front: "しんこうえん (新公園)", back: "New Park" },
-                    { front: "りょこう会社 (旅行会社)", back: "travel agency" },
-                    { front: "しょうがっこう (小学校)", back: "elementary school" },
-                    { front: "かしゅ (歌手)", back: "singer" },
-                    { front: "おまわりさん", back: "policeman (friendly term)" },
-                    { front: "べんごし (弁護士)", back: "lawyer" },
-                    { front: "サラリーマン", back: "salaried businessman" },
-                    { front: "エンジニア", back: "engineer" },
-                    { front: "アニメーター", back: "animator" },
-                    { front: "ジブリのアニメ", back: "Ghibli anime" },
-                    { front: "ユーチューバー", back: "YouTuber" },
-                    { front: "（お）しろ (城)", back: "castle" },
-                    { front: "じんじゃ (神社)", back: "Shinto shrine" },
-                    { front: "おてら (お寺)", back: "Buddhist temple" },
-                    { front: "～や (～屋)", back: "... shop / ... store" },
-                    { front: "アニメや", back: "anime shop" },
-                    { front: "ケーキや", back: "cake shop" },
-                    { front: "ペット", back: "pet" },
-                    { front: "ぞう (象)", back: "elephant" },
-                    { front: "うま (馬)", back: "horse" },
-                    { front: "うさぎ (兎)", back: "rabbit" },
-                    { front: "へび (蛇)", back: "snake" },
-                    { front: "にほんしゅ (日本酒)", back: "Japanese sake" },
-                    { front: "あまいもの (甘い物)", back: "sweet things" },
-                    { front: "からいもの (辛い物)", back: "spicy/salty things" },
-                    { front: "つめたいもの (冷たい物)", back: "cold things" },
-                    { front: "あたたかいもの (温かい物)", back: "warm things" },
-                    { front: "なにか (何か)", back: "something" },
-                    { front: "どこか", back: "somewhere" },
-                    { front: "だれか", back: "someone" },
-                    { front: "いつか", back: "sometime / someday" },
-                    { front: "～つ", back: "counter for general objects" },
-                    { front: "ひとつ", back: "one (object)" },
-                    { front: "ふたつ", back: "two (objects)" },
-                    { front: "みっつ", back: "three (objects)" },
-                    { front: "よっつ", back: "four (objects)" },
-                    { front: "いつつ", back: "five (objects)" },
-                    { front: "むっつ", back: "six (objects)" },
-                    { front: "ななつ", back: "seven (objects)" },
-                    { front: "ようつ", back: "eight (objects)" },
-                    { front: "ここのつ", back: "nine (objects)" },
-                    { front: "とお", back: "ten (objects)" },
-                    { front: "いくつ", back: "how many? (general objects)" },
-                    { front: "～にん (～人)", back: "counter for people" },
-                    { front: "ひとり", back: "one person" },
-                    { front: "ふたり", back: "two people" },
-                    { front: "～にん", back: "... people" },
-                    { front: "何にん", back: "how many people?" },
-                    { front: "～だい (～台)", back: "counter for machinery/vehicles" },
-                    { front: "何だい", back: "how many machines/vehicles?" },
-                    { front: "～まい (～枚)", back: "counter for flat/thin objects" },
-                    { front: "何まい", back: "how many flat objects?" },
-                    { front: "～さつ (～冊)", back: "counter for books/magazines" },
-                    { front: "何さつ", back: "how many books?" },
-                    { front: "～ちゃく (～着)", back: "counter for clothes/suits" },
-                    { front: "何ちゃく", back: "how many clothes?" },
-                    { front: "～こ (～個)", back: "counter for small round objects" },
-                    { front: "何こ", back: "how many small objects?" },
-                    { front: "～そく (～足)", back: "counter for pairs of footwear" },
-                    { front: "何そく", back: "how many pairs?" },
-                    { front: "～はい (～杯)", back: "counter for cups/glasses/bowls" },
-                    { front: "何ばい", back: "how many cups?" },
-                    { front: "～ほん (～本)", back: "counter for long/cylindrical objects" },
-                    { front: "何ぼん", back: "how many long objects?" },
-                    { front: "～かい (～回)", back: "counter for frequencies/times" },
-                    { front: "何かい", back: "how many times?" },
-                    { front: "～ねん (～年)", back: "counter for years / school grade" },
-                    { front: "何ねん", back: "how many years? / what grade?" },
-                    { front: "～かげつ (～ヶ月)", back: "counter for months (duration)" },
-                    { front: "何かげつ", back: "how many months (duration)?" },
-                    { front: "～しゅうかん (～週間)", back: "counter for weeks (duration)" },
-                    { front: "何しゅうかん", back: "how many weeks?" },
-                    { front: "～にち / ～か (～日)", back: "counter for days (duration)" },
-                    { front: "何にち", back: "how many days?" },
-                    { front: "～じかん (～時間)", back: "counter for hours (duration)" },
-                    { front: "何じかん", back: "how many hours?" },
-                    { front: "ぜんぶで (全部で)", back: "all together / in total" },
-                    { front: "みんな", back: "everyone / all things" },
-                    { front: "だけ", back: "only ..." },
-                    { front: "～かい (～階)", back: "counter for floors" },
-                    { front: "何がい", back: "which floor? / how many floors?" },
-                    { front: "～えん (～円)", back: "Yen (currency)" },
-                    { front: "何えん", back: "how much Yen?" },
-                    { front: "～キロメートル", back: "kilometer" },
-                    { front: "～グラム", back: "gram" },
-                    { front: "～センチメートル", back: "centimeter" }
-                ],
-                "Lesson 12 Vocabs": [
-                    { front: "なっとう (納豆)", back: "fermented soy bean" },
-                    { front: "なまたまご (生卵)", back: "raw egg" },
-                    { front: "ディスコ", back: "disco" },
-                    { front: "コンパ", back: "student party / social mixer" },
-                    { front: "おくりもの (贈り物)", back: "gift / present" },
-                    { front: "おみまい (お見舞い)", back: "visiting someone sick / expression of sympathy" },
-                    { front: "お祝い", back: "celebration / gift for celebration" },
-                    { front: "おもちゃ", back: "toy" },
-                    { front: "かみのけ (髪の毛)", back: "hair (head)" },
-                    { front: "ひげ", back: "beard / mustache" },
-                    { front: "せき (咳)", back: "cough" },
-                    { front: "くしゃみ", back: "sneeze" },
-                    { front: "あくび", back: "yawn" },
-                    { front: "しゃっくり", back: "hiccup" },
-                    { front: "おなか", back: "stomach / belly" },
-                    { front: "のど", back: "throat" },
-                    { front: "こえ (声)", back: "voice" },
-                    { front: "てんきよほう (天気予報)", back: "weather forecast" },
-                    { front: "たいふう (台風)", back: "typhoon" },
-                    { front: "じしん (地震)", back: "earthquake" },
-                    { front: "かじ (火事)", back: "fire accident" },
-                    { front: "じこ (事故)", back: "accident" },
-                    { front: "こうつうじこ (交通事故)", back: "traffic accident" },
-                    { front: "～のあと (～の後)", back: "after ..." },
-                    { front: "～のまえ (～の前)", back: "before ..." },
-                    { front: "（お）だいじに (お大事に)", back: "Take care (said to a sick person)" },
-                    { front: "～（に）ついて", back: "about ... / regarding ..." },
-                    { front: "もし", back: "if ... (used with condition pattern)" },
-                    { front: "いくら", back: "how much (money)? / no matter how much..." },
-                    { front: "うそ", back: "lie / untruth" },
-                    { front: "かぜ (風邪)", back: "a cold / flu" },
-                    { front: "ねつ (熱)", back: "fever / heat" },
-                    { front: "びょうき (病気)", back: "illness / sickness" },
-                    { front: "くすり (薬)", back: "medicine" }
-                ],
-                "Lesson 13 Vocabs": [
-                    { front: "ぶちょう (部長)", back: "department manager" },
-                    { front: "しゃちょう (社長)", back: "company president" },
-                    { front: "アルバイト", back: "part-time job" },
-                    { front: "しゅくだい (宿題)", back: "homework" },
-                    { front: "しけん (試験)", back: "exam / test" },
-                    { front: "そうだん (相談)", back: "consultation / discussion" },
-                    { front: "ねつ (熱)", back: "fever" },
-                    { front: "おかねもち (お金持ち)", back: "rich person" },
-                    { front: "じぶん (自分)", back: "oneself" },
-                    { front: "ひこうき (飛行機)", back: "airplane" },
-                    { front: "しんかんせん (新幹線)", back: "bullet train" },
-                    { front: "ごはん (ご飯)", back: "meal / cooked rice" },
-                    { front: "たばこ", back: "cigarette / tobacco" },
-                    { front: "ほう (方)", back: "direction / alternative side (comparison)" }
-                ]
+                "Lesson 11 Vocabs": [{ front: "しょうらい (将来)", back: "future" }, { front: "かいもの (買い物)", back: "shopping" }, { front: "ドレス", back: "dress" }],
+                "Lesson 12 Vocabs": [{ front: "なっとう (納豆)", back: "fermented soy bean" }, { front: "なまたまご (生卵)", back: "raw egg" }],
+                "Lesson 13 Vocabs": [{ front: "ぶちょう (部長)", back: "department manager" }, { front: "しゃちょう (社長)", back: "company president" }]
             },
             kanji: {
-                "Kanji Verbs Group 1": [
-                    { front: "会います", back: "あいます\nTo meet" },
-                    { front: "遊びます", back: "あそびます\nEnjoy oneself, play" },
-                    { front: "洗います", back: "あらいます\nWash" },
-                    { front: "あります", back: "あります\nHave" },
+                "Kanji Verbs Group 1": [{ front: "会います", back: "あいます\nTo meet" }, { front: "遊びます", back: "あそびます\nEnjoy oneself, play" }, { front: "洗います", back: "あらいます\nWash" }, { front: "あります", back: "あります\nHave" },
                     { front: "あります", back: "あります\nExist" },
                     { front: "歩きます", back: "あるきます\nWalk" },
                     { front: "言います", back: "いいます\nSay" },
@@ -687,26 +868,141 @@
                     { front: "残ります", back: "のこります\nTo remain" },
                     { front: "眠ります", back: "ねむります\nTo sleep" },
                     { front: "太ります", back: "ふとりまます\nTo get fat" },
-                    { front: "光ります", back: "ひかりまます\nShine, be bright" },
-                    { front: "かぶります", back: "かぶります\nTo wear(hat)" }
+                    { front: "光ります", back: "ひかりまます\nShine, be bright" }],
+                "Kanji Group 2 Verbs": [
+                    { front: "開けます", back: "あけます\nOpen" },
+                    { front: "あげます", back: "あげます\nGive" },
+                    { front: "集めます", back: "あつめます\nCollect, Gather" },
+                    { front: "浴びます", back: "あびます\nTake (Shower)" },
+                    { front: "います", back: "います\nExist" },
+                    { front: "います", back: "います\nHave" },
+                    { front: "います", back: "います\nStay (Country)" },
+                    { front: "入れます", back: "いれます\nPut in, insert" },
+                    { front: "入れます", back: "いれます\nMake (Coffee)" },
+                    { front: "生まれま", back: "すうたまれます\nBe born" },
+                    { front: "起きます", back: "おきます\nGet up, Wake up" },
+                    { front: "教えます", back: "おしえます\nTell, Teach" },
+                    { front: "覚えます", back: "おぼえます\nMemorize" },
+                    { front: "降ります", back: "おります\nGet off (Car)" },
+                    { front: "変えます", back: "かえます\nChange" },
+                    { front: "換えます", back: "かえます\nExchange, Change" },
+                    { front: "かけます", back: "かけます\nMake a call" },
+                    { front: "かけます", back: "かけます\nPut on (Glass)" },
+                    { front: "借ります", back: "かります\nBorrow" },
+                    { front: "考えます", back: "かんがえます\nThink" },
+                    { front: "気をつけます", back: "きをつけます\nPay attention, Take care" },
+                    { front: "着ます", back: "きます\nPut on (Shirt)" },
+                    { front: "くれます", back: "くれます\nGive (Me)" },
+                    { front: "閉めます", back: "しめます\nClose, Shut" },
+                    { front: "調べます", back: "しらべます\nCheck, Investigate" },
+                    { front: "捨てます", back: "すてます\nThrow away" },
+                    { front: "食べます", back: "たべます\nEat" },
+                    { front: "足ります", back: "たります\nBe enough" },
+                    { front: "疲れます", back: "つかれます\nTired" },
+                    { front: "つけます", back: "つけます\nTurn on" },
+                    { front: "出かけます", back: "でかけます\nGo out" },
+                    { front: "できます", back: "できます\nBe able to, Can" },
+                    { front: "出ます", back: "でます\nGo out, Come out" },
+                    { front: "止めます", back: "とめます\nStop, Park" },
+                    { front: "寝ます", back: "ねます\nSleep" },
+                    { front: "乗り換えます", back: "のりかえます\nChange vehicle" }
+                ]
+            },
+            time: {
+                "1. Hours of the Day": [
+                    { front: "一時 (いちじ)", back: "1 o'clock (1:00)" },
+                    { front: "四時 (よじ)", back: "4 o'clock (4:00 - Irregular)" },
+                    { front: "七時 (しちじ)", back: "7 o'clock (7:00 - Irregular)" },
+                    { front: "九時 (くじ)", back: "9 o'clock (9:00 - Irregular)" },
+                    { front: "何時 (なんじ)", back: "What time?" }
+                ],
+                "2. Counting Hours (Duration)": [
+                    { front: "一時間 (いちじかん)", back: "For 1 hour" },
+                    { front: "四時間 (よじかん)", back: "For 4 hours" },
+                    { front: "何時間 (なんじかん)", back: "How many hours?" }
+                ],
+                "3. Days of the Week": [
+                    { front: "月曜日 (げつようび)", back: "Monday" },
+                    { front: "火曜日 (かよび)", back: "Tuesday" },
+                    { front: "水曜日 (すいようび)", back: "Wednesday" },
+                    { front: "木曜日 (もくようび)", back: "Thursday" },
+                    { front: "金曜日 (きんようび)", back: "Friday" },
+                    { front: "土曜日 (どようび)", back: "Saturday" },
+                    { front: "日曜日 (にちようび)", back: "Sunday" },
+                    { front: "何曜日 (なんようび)", back: "What day of the week?" }
+                ],
+                "4. Counting Weeks": [
+                    { front: "一週間 (いっしゅうかん)", back: "1 week" },
+                    { front: "二週間 (にしゅうかん)", back: "2 weeks" },
+                    { front: "何週間 (なんしゅうかん)", back: "How many weeks?" }
+                ],
+                "5. Calendar Dates": [
+                    { front: "一日 (ついたち)", back: "1st day of the month" },
+                    { front: "二日 (ふつか)", back: "2nd day of the month" },
+                    { front: "三日 (みっか)", back: "3rd day of the month" },
+                    { front: "四日 (よっか)", back: "4th day of the month" },
+                    { front: "五日 (いつか)", back: "5th day of the month" },
+                    { front: "十日 (とおか)", back: "10th day of the month" },
+                    { front: "二十日 (はつか)", back: "20th day of the month" },
+                    { front: "何日 (なんにち)", back: "What day of the month? / How many days?" }
+                ]
+            },
+            numbers: {
+                "Numbers 1-10": [
+                    { front: "一 (いち)", back: "ichi / 1" },
+                    { front: "二 (に)", back: "ni / 2" },
+                    { front: "三 (さん)", back: "san / 3" },
+                    { front: "四 (よん/し)", back: "yon / shi / 4" },
+                    { front: "五 (ご)", back: "go / 5" },
+                    { front: "六 (ろく)", back: "roku / 6" },
+                    { front: "七 (なな/しち)", back: "nana / shich / 7" },
+                    { front: "八 (はち)", back: "hachi / 8" },
+                    { front: "九 (きゅう/く)", back: "kyuu / ku / 9" },
+                    { front: "十 (じゅう)", back: "juu / 10" }
+                ],
+                "High Numbers": [
+                    { front: "百 (ひゃく)", back: "hyaku / 100" },
+                    { front: "千 (せん)", back: "sen / 1,000" },
+                    { front: "万 (まん)", back: "man / 10,000" },
+                    { front: "何 (なん)", back: "nan / How many?" }
                 ]
             }
         };
 
         let currentCategory = 'grammar'; 
-        
         let decksData = JSON.parse(localStorage.getItem('categorizedFlashcardDecks'));
-        if (!decksData || !decksData.kanji || !decksData.kanji["Kanji Verbs Group 1"]) {
+        if (!decksData || !decksData.kanji || !decksData.time || !decksData.numbers) {
             decksData = bookLessons;
             localStorage.setItem('categorizedFlashcardDecks', JSON.stringify(decksData));
+        } else {
+            if (!decksData.kanji["Kanji Group 2 Verbs"]) {
+                decksData.kanji["Kanji Group 2 Verbs"] = bookLessons.kanji["Kanji Group 2 Verbs"];
+                localStorage.setItem('categorizedFlashcardDecks', JSON.stringify(decksData));
+            }
         }
+
+        decksData.hiragana = { "Whole Hiragana Deck": HIRAGANA_DATA.filter(k => k.front !== "") };
+        decksData.katakana = { "Whole Katakana Deck": KATAKANA_DATA.filter(k => k.front !== "") };
 
         let activeDeckKey = null;
         let currentIndex = 0;
         let isNihongoFirst = true;
+        let isNotesMode = false; 
 
+        // Quiz State Globals
+        let quizPool = [];
+        let quizIndex = 0;
+        let quizScore = 0;
+        let quizHistory = [];
+        let activeQuizType = 'kana'; // 'kana', 'special', or 'deck'
+
+        // UI Element Selectors
         const dashboardView = document.getElementById('deck-dashboard-view');
+        const kanaDashboardView = document.getElementById('kana-dashboard-view');
+        const quizGameView = document.getElementById('quiz-game-view');
+        const quizResultsView = document.getElementById('quiz-results-view');
         const studyView = document.getElementById('study-view');
+        
         const decksContainer = document.getElementById('decks-container');
         const cardElement = document.getElementById('card');
         const frontFace = document.getElementById('front-face');
@@ -717,15 +1013,11 @@
         const categoryTitle = document.getElementById('category-title');
         const sidebarMenu = document.getElementById('sidebar-menu');
         const sidebarOverlay = document.getElementById('sidebar-overlay');
+        const quizInjectionPanel = document.getElementById('category-quiz-injection-panel');
         
         const flashcardZone = document.getElementById('flashcard-study-zone');
         const notesZone = document.getElementById('notes-study-zone');
-        
-        const panelCreationTitle = document.getElementById('panel-creation-title');
-        const btnCreateDeck = document.getElementById('btn-create-deck');
-        const addPanelTitle = document.getElementById('add-panel-title');
-        const labelFront = document.getElementById('label-front');
-        const labelBack = document.getElementById('label-back');
+        const listZone = document.getElementById('list-study-zone');
         const inputFront = document.getElementById('input-front');
         const inputBack = document.getElementById('input-back');
 
@@ -739,19 +1031,52 @@
             document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
             if(event) event.target.classList.add('active');
 
-            if(category === 'grammar') {
+            // Reset views
+            dashboardView.classList.remove('hidden');
+            kanaDashboardView.classList.add('hidden');
+            quizGameView.classList.add('hidden');
+            quizResultsView.classList.add('hidden');
+            studyView.classList.add('hidden');
+            quizInjectionPanel.classList.add('hidden');
+
+            if (category === 'kana') {
+                dashboardView.classList.add('hidden');
+                kanaDashboardView.classList.remove('hidden');
+                switchKanaTab('hiragana');
+            } else if(category === 'grammar') {
                 categoryTitle.innerText = "📚 Topic and Grammar Notes";
-                panelCreationTitle.innerText = "➕ Create New Lesson Section";
-                btnCreateDeck.innerText = "Create Lesson Section";
+                document.getElementById('panel-creation-title').innerText = "➕ Create New Lesson Section";
+                document.getElementById('btn-create-deck').innerText = "Create Lesson Section";
+                document.getElementById('creation-panel').classList.remove('hidden');
+                renderDecks();
+            } else if(category === 'time') {
+                categoryTitle.innerText = "⏰ Time, Calendars & Counting System";
+                document.getElementById('panel-creation-title').innerText = "➕ Add Sub-category Unit";
+                document.getElementById('btn-create-deck').innerText = "Create Unit";
+                document.getElementById('creation-panel').classList.remove('hidden');
+                quizInjectionPanel.classList.remove('hidden');
+                renderDecks();
+            } else if(category === 'numbers') {
+                categoryTitle.innerText = "🔢 Counting Numbers (Kanji / Furigana)";
+                document.getElementById('panel-creation-title').innerText = "➕ Add Number Grouping Set";
+                document.getElementById('btn-create-deck').innerText = "Create Set";
+                document.getElementById('creation-panel').classList.remove('hidden');
+                quizInjectionPanel.classList.remove('hidden');
+                renderDecks();
             } else {
                 categoryTitle.innerText = category === 'vocabs' ? "🎴 Vocabulary Decks" : "🉐 Kanji Deck Collections";
-                panelCreationTitle.innerText = "➕ Create New Deck inside Category";
-                btnCreateDeck.innerText = "Create Deck";
+                document.getElementById('panel-creation-title').innerText = "➕ Create New Deck inside Category";
+                document.getElementById('btn-create-deck').innerText = "Create Deck";
+                document.getElementById('creation-panel').classList.remove('hidden');
+                
+                if (category === 'kanji') {
+                    quizInjectionPanel.classList.remove('hidden');
+                }
+                renderDecks();
             }
 
             sidebarMenu.classList.remove('open');
             sidebarOverlay.classList.remove('show');
-            showDashboard();
         }
 
         function renderDecks() {
@@ -767,7 +1092,7 @@
                         <div class="deck-name">${key}</div>
                         <div class="deck-count">${currentCategory === 'grammar' ? cardCount + ' topics' : cardCount + ' cards'}</div>
                     </div>
-                    <button class="btn-sm-red" onclick="deleteDeck(event, '${key.replace(/'/g, "\\'")}')">Delete</button>
+                    ${(currentCategory !== 'hiragana' && currentCategory !== 'katakana') ? `<button class="btn-sm-red" onclick="deleteDeck(event, '${key.replace(/'/g, "\\'")}')">Delete</button>` : ''}
                 `;
                 decksContainer.appendChild(deckItem);
             });
@@ -793,33 +1118,65 @@
             }
         }
 
+        function switchKanaTab(type) {
+            const container = document.getElementById('kana-chart-display');
+            container.innerHTML = '';
+            const source = type === 'hiragana' ? HIRAGANA_DATA : KATAKANA_DATA;
+
+            source.forEach(item => {
+                const cell = document.createElement('div');
+                if (item.front === "") {
+                    cell.className = "chart-cell empty";
+                } else {
+                    cell.className = "chart-cell";
+                    cell.innerHTML = `<span class="jp">${item.front}</span><span class="ro">${item.back}</span>`;
+                    cell.style.cursor = "pointer";
+                    cell.onclick = () => {
+                        currentCategory = type;
+                        openDeck(type === 'hiragana' ? "Whole Hiragana Deck" : "Whole Katakana Deck");
+                    };
+                }
+                container.appendChild(cell);
+            });
+        }
+
         function openDeck(key) {
             activeDeckKey = key; 
             currentDeckTitle.innerText = key;
             dashboardView.classList.add('hidden');
+            kanaDashboardView.classList.add('hidden');
             studyView.classList.remove('hidden');
             
+            // Hide Deck Quiz Settings if open
+            document.getElementById('deck-quiz-settings-zone').classList.add('hidden');
+            
+            isNotesMode = false;
+            const toggleBtn = document.getElementById('view-toggle-btn');
+            const quizBtn = document.getElementById('deck-quiz-btn');
+            
+            toggleBtn.innerText = "📖 Read as Notes";
+            listZone.classList.add('hidden');
+
             if(currentCategory === 'grammar') {
-                flashcardZone.classList.add('hidden');
-                notesZone.classList.remove('hidden');
-                
-                addPanelTitle.innerText = "➕ Add Grammar Point to Note";
-                labelFront.innerText = "Main Topic / Pattern Header";
-                inputFront.placeholder = "e.g., ～なければ なりません";
-                labelBack.innerText = "Details (Use 'Meaning:', 'Particle:', 'Example:' lines)";
-                inputBack.placeholder = "Meaning: Expresses obligation\nParticle: が\nExample: べんきょう しなければ なりません。";
-                
+                toggleBtn.classList.add('hidden');
+                quizBtn.classList.add('hidden');
+                varFormDisplaySettings(true);
                 renderNotes();
             } else {
-                notesZone.classList.add('hidden');
-                flashcardZone.classList.remove('hidden');
+                if (['time', 'numbers', 'vocabs', 'kanji'].includes(currentCategory)) {
+                    toggleBtn.classList.remove('hidden');
+                } else {
+                    toggleBtn.classList.add('hidden');
+                }
                 
-                addPanelTitle.innerText = "➕ Add Card to this Set";
-                labelFront.innerText = "Front Side (Nihongo / Hint)";
-                inputFront.placeholder = "e.g., 会います";
-                labelBack.innerText = "Back Side (English / Meaning)";
-                inputBack.placeholder = "e.g., To meet";
-                
+                // Show Play Deck Quiz Button strictly for Kanji category 
+                if (currentCategory === 'kanji') {
+                    quizBtn.classList.remove('hidden');
+                } else {
+                    quizBtn.classList.add('hidden');
+                }
+
+                varFormDisplaySettings(false);
                 currentIndex = 0;
                 cardElement.classList.remove('is-flipped');
                 updateCard();
@@ -827,51 +1184,431 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        function toggleStudyViewMode() {
+            isNotesMode = !isNotesMode;
+            const toggleBtn = document.getElementById('view-toggle-btn');
+            
+            if(isNotesMode) {
+                toggleBtn.innerText = "🃏 Play Flashcards";
+                flashcardZone.classList.add('hidden');
+                listZone.classList.remove('hidden');
+                renderVocabList();
+            } else {
+                toggleBtn.innerText = "📖 Read as Notes";
+                listZone.classList.add('hidden');
+                flashcardZone.classList.remove('hidden');
+            }
+        }
+
+        /* --- DECK QUIZ SYSTEM (KANJI) --- */
+        function showDeckQuizSettings() {
+            flashcardZone.classList.add('hidden');
+            listZone.classList.add('hidden');
+            document.getElementById('add-item-panel').classList.add('hidden');
+            document.getElementById('deck-quiz-settings-zone').classList.remove('hidden');
+            
+            // hide view toggle while in quiz setup
+            document.getElementById('view-toggle-btn').classList.add('hidden');
+            document.getElementById('deck-quiz-btn').classList.add('hidden');
+        }
+
+        function cancelDeckQuizSettings() {
+            document.getElementById('deck-quiz-settings-zone').classList.add('hidden');
+            document.getElementById('view-toggle-btn').classList.remove('hidden');
+            document.getElementById('deck-quiz-btn').classList.remove('hidden');
+            
+            if (isNotesMode) {
+                listZone.classList.remove('hidden');
+            } else {
+                flashcardZone.classList.remove('hidden');
+            }
+            document.getElementById('add-item-panel').classList.remove('hidden');
+        }
+
+        function startDeckQuiz() {
+            const list = decksData[currentCategory][activeDeckKey] || [];
+            if (list.length < 4) {
+                return alert("You need at least 4 items saved inside this specific deck to play a quiz!");
+            }
+            
+            activeQuizType = 'deck';
+            quizIndex = 0;
+            quizScore = 0;
+            quizHistory = [];
+            
+            // Randomize whole deck for the questions
+            quizPool = [...list].sort(() => Math.random() - 0.5);
+
+            studyView.classList.add('hidden');
+            quizGameView.classList.remove('hidden');
+            document.getElementById('quiz-title-header').innerText = `Quiz: ${activeDeckKey}`;
+            
+            executeQuizNextIteration();
+        }
+
+        // Helper to cleanly extract parts for the switchable modes
+        function parseKanjiItem(item) {
+            let kanji = item.front;
+            let furi = "";
+            let eng = item.back;
+            
+            if (item.back.includes('\n')) {
+                let parts = item.back.split('\n');
+                furi = parts[0].trim();
+                eng = parts.slice(1).join(' ').trim();
+            }
+            return { kanji, furi, eng };
+        }
+
+
+        // --- DYNAMIC TABLE PARSER ENGINE ---
+        function renderVocabList() {
+            listZone.innerHTML = '';
+            const items = decksData[currentCategory][activeDeckKey] || [];
+            
+            if(items.length === 0) {
+                listZone.innerHTML = `<p style="text-align:center; color:var(--text-muted);">No items added yet in this set.</p>`;
+                return;
+            }
+
+            let tableHTML = `<div class="table-container"><table class="vocab-table">
+                <thead>
+                    <tr>
+                        <th>Kanji</th>
+                        <th>Furigana</th>
+                        <th>Romaji</th>
+                        <th>English</th>
+                    </tr>
+                </thead>
+                <tbody>`;
+            
+            items.forEach(item => {
+                let kanji = item.front;
+                let furi = "-";
+                
+                const frontMatch = item.front.match(/(.+?)\s*\((.+?)\)/);
+                if(frontMatch) {
+                    kanji = frontMatch[1].trim();
+                    furi = frontMatch[2].trim();
+                } else if (item.front.match(/^[ぁ-んァ-ン]+$/)) {
+                    kanji = "-";
+                    furi = item.front;
+                }
+
+                let romaji = "-";
+                let english = item.back;
+                
+                if (item.back.includes('/')) {
+                    const backParts = item.back.split('/');
+                    romaji = backParts[0].trim();
+                    english = backParts.slice(1).join(' / ').trim();
+                } else if (item.back.includes('\n')) {
+                    const backParts = item.back.split('\n');
+                    furi = backParts[0].trim();
+                    english = backParts.slice(1).join(' ').trim();
+                }
+
+                tableHTML += `
+                    <tr>
+                        <td class="v-kanji">${kanji}</td>
+                        <td class="v-furi">${furi}</td>
+                        <td class="v-romaji">${romaji !== '-' ? romaji : (furi !== '-' ? furi : '-')}</td>
+                        <td class="v-english">${english.replace(/\n/g, '<br>')}</td>
+                    </tr>
+                `;
+            });
+            
+            tableHTML += `</tbody></table></div>`;
+            listZone.innerHTML = tableHTML;
+        }
+
+        function varFormDisplaySettings(isGrammar) {
+            if(isGrammar) {
+                flashcardZone.classList.add('hidden');
+                notesZone.classList.remove('hidden');
+                document.getElementById('add-item-panel').classList.remove('hidden');
+            } else {
+                notesZone.classList.add('hidden');
+                if(!isNotesMode) flashcardZone.classList.remove('hidden');
+                
+                if(currentCategory === 'hiragana' || currentCategory === 'katakana') {
+                    document.getElementById('add-item-panel').classList.add('hidden');
+                    document.getElementById('flashcard-action-bar').classList.add('hidden');
+                } else {
+                    document.getElementById('add-item-panel').classList.remove('hidden');
+                    document.getElementById('flashcard-action-bar').classList.remove('hidden');
+                }
+            }
+        }
+
         function showDashboard() {
             studyView.classList.add('hidden');
-            dashboardView.classList.remove('hidden');
-            renderDecks();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            if (currentCategory === 'hiragana' || currentCategory === 'katakana' || currentCategory === 'kana') {
+                currentCategory = 'kana';
+                kanaDashboardView.classList.remove('hidden');
+            } else {
+                dashboardView.classList.remove('hidden');
+                handleCategorySwitch(currentCategory);
+            }
+        }
+
+        // --- SPECIALIZED RUNTIME CATEGORY QUIZ LOGIC (TIME, NUMBERS & KANJI CATEGORY) ---
+        function launchCategorySpecializedQuiz() {
+            const categoryDecks = decksData[currentCategory] || {};
+            let globalPool = [];
+            
+            Object.keys(categoryDecks).forEach(deckName => {
+                categoryDecks[deckName].forEach(card => {
+                    globalPool.push({ front: card.front, back: card.back });
+                });
+            });
+
+            if(globalPool.length < 4) {
+                return alert("You need at least 4 items saved inside this category to play a dynamic quiz game!");
+            }
+
+            globalPool.sort(() => Math.random() - 0.5);
+            quizPool = globalPool.slice(0, 15); 
+            
+            activeQuizType = 'special';
+            quizIndex = 0;
+            quizScore = 0;
+            quizHistory = [];
+
+            dashboardView.classList.add('hidden');
+            quizGameView.classList.remove('hidden');
+            
+            document.getElementById('quiz-title-header').innerText = 
+                currentCategory === 'time' ? "⏰ Time Mastery Quiz" : 
+                (currentCategory === 'kanji' ? "🉐 Kanji Training Game" : "🔢 Numbers Training Game");
+            
+            executeQuizNextIteration();
+        }
+
+        // --- RUNTIME KANA QUIZ INTERACTIVE LOGIC ---
+        function initiateQuizGame() {
+            activeQuizType = 'kana';
+            const systemTarget = document.getElementById('quiz-deck-select').value;
+            const sizingRule = document.getElementById('quiz-size-select').value;
+            
+            const rawPool = systemTarget === 'hiragana' ? HIRAGANA_DATA : KATAKANA_DATA;
+            let filtered = rawPool.filter(item => item.front !== "");
+
+            filtered.sort(() => Math.random() - 0.5);
+
+            let totalQuestions = sizingRule === 'all' ? filtered.length : parseInt(sizingRule);
+            quizPool = filtered.slice(0, Math.min(totalQuestions, filtered.length));
+            
+            quizIndex = 0;
+            quizScore = 0;
+            quizHistory = [];
+
+            document.getElementById('quiz-title-header').innerText = "Kana Quiz Game";
+            kanaDashboardView.classList.add('hidden');
+            quizGameView.classList.remove('hidden');
+            
+            executeQuizNextIteration();
+        }
+
+        // Core dynamic quiz loop for ALL quiz types
+        function executeQuizNextIteration() {
+            if(quizIndex >= quizPool.length) {
+                return renderQuizFinalSummary();
+            }
+
+            document.getElementById('quiz-progress-counter').innerText = `Question ${quizIndex + 1} of ${quizPool.length}`;
+            document.getElementById('quiz-score-counter').innerText = `Score: ${quizScore}`;
+
+            const currentItem = quizPool[quizIndex];
+            let combinedChoices = [];
+
+            // 1. DYNAMIC DECK QUIZ ENGINE (Switchable)
+            if (activeQuizType === 'deck') {
+                const mode = document.getElementById('deck-quiz-mode-select').value;
+                let parsedCurrent = parseKanjiItem(currentItem);
+                
+                let questionText = "";
+                let correctText = "";
+                
+                if (mode === 'kanji-eng') {
+                    questionText = parsedCurrent.kanji;
+                    correctText = parsedCurrent.eng;
+                } else if (mode === 'eng-kanji') {
+                    questionText = parsedCurrent.eng;
+                    correctText = parsedCurrent.kanji;
+                } else if (mode === 'kanji-furi-eng') {
+                    questionText = parsedCurrent.kanji;
+                    correctText = (parsedCurrent.furi ? parsedCurrent.furi + " | " : "") + parsedCurrent.eng;
+                }
+
+                document.getElementById('quiz-question-character').innerHTML = questionText;
+                combinedChoices.push(correctText);
+
+                // Fetch distractors (wrong answers) safely without repeating
+                let allDeckItems = decksData[currentCategory][activeDeckKey];
+                let otherItems = allDeckItems.filter(x => x.front !== currentItem.front);
+                
+                // If the deck is too small, fallback by grabbing random stuff from the whole category
+                if (otherItems.length < 3) {
+                    let allCategoryItems = [];
+                    Object.values(decksData[currentCategory]).forEach(deck => allCategoryItems.push(...deck));
+                    otherItems = allCategoryItems.filter(x => x.front !== currentItem.front);
+                }
+                
+                otherItems.sort(() => Math.random() - 0.5);
+                let distractorTexts = [];
+                
+                for(let i = 0; i < otherItems.length; i++) {
+                    if (distractorTexts.length >= 3) break;
+                    
+                    let parsedD = parseKanjiItem(otherItems[i]);
+                    let dText = "";
+                    if (mode === 'kanji-eng') dText = parsedD.eng;
+                    else if (mode === 'eng-kanji') dText = parsedD.kanji;
+                    else if (mode === 'kanji-furi-eng') dText = (parsedD.furi ? parsedD.furi + " | " : "") + parsedD.eng;
+                    
+                    if (!distractorTexts.includes(dText) && dText !== correctText) {
+                        distractorTexts.push(dText);
+                    }
+                }
+                
+                combinedChoices.push(...distractorTexts);
+                
+                // Used for saving history cleanly later
+                currentItem.displayQuestion = questionText;
+                currentItem.displayCorrect = correctText;
+
+            } 
+            // 2. REGULAR KANA OR CATEGORY QUIZZES
+            else { 
+                document.getElementById('quiz-question-character').innerHTML = currentItem.front.replace(/\n/g, '<br>');
+                combinedChoices.push(currentItem.back);
+
+                if (activeQuizType === 'kana') {
+                    const poolSource = document.getElementById('quiz-deck-select').value === 'hiragana' ? HIRAGANA_DATA : KATAKANA_DATA;
+                    let flatDistractors = poolSource.filter(x => x.back !== "" && x.back !== currentItem.back).map(x => x.back);
+                    flatDistractors.sort(() => Math.random() - 0.5);
+                    combinedChoices.push(flatDistractors[0], flatDistractors[1], flatDistractors[2]);
+                } else {
+                    let categoryDecks = decksData[currentCategory];
+                    let allPossibleBacks = [];
+                    Object.keys(categoryDecks).forEach(d => {
+                        categoryDecks[d].forEach(c => {
+                            if(c.back !== currentItem.back && !allPossibleBacks.includes(c.back)) {
+                                allPossibleBacks.push(c.back);
+                            }
+                        });
+                    });
+                    allPossibleBacks.sort(() => Math.random() - 0.5);
+                    for(let i=0; i<3; i++) {
+                        if(allPossibleBacks[i]) combinedChoices.push(allPossibleBacks[i]);
+                        else combinedChoices.push("Alt Option " + (i+1));
+                    }
+                }
+                currentItem.displayQuestion = currentItem.front;
+                currentItem.displayCorrect = currentItem.back;
+            }
+            
+            // Render the options visually
+            combinedChoices = combinedChoices.slice(0,4).sort(() => Math.random() - 0.5);
+            const optionsContainer = document.getElementById('quiz-choices-box');
+            optionsContainer.innerHTML = '';
+
+            combinedChoices.forEach(choice => {
+                const btn = document.createElement('button');
+                btn.className = 'quiz-choice-btn';
+                btn.style.fontSize = "0.95rem";
+                btn.style.padding = "10px";
+                btn.innerHTML = choice.replace(/\n/g, ' / ');
+                btn.onclick = () => registerQuizUserSelection(choice, currentItem.displayCorrect);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function registerQuizUserSelection(selected, correct) {
+            let isCorrect = (selected === correct);
+            if(isCorrect) quizScore++;
+
+            quizHistory.push({
+                character: quizPool[quizIndex].displayQuestion,
+                selected: selected,
+                correct: correct,
+                status: isCorrect
+            });
+
+            quizIndex++;
+            executeQuizNextIteration();
+        }
+
+        function renderQuizFinalSummary() {
+            quizGameView.classList.add('hidden');
+            quizResultsView.classList.remove('hidden');
+
+            document.getElementById('results-score-text').innerText = `${quizScore} / ${quizPool.length}`;
+            let pct = Math.round((quizScore / quizPool.length) * 100) || 0;
+            document.getElementById('results-percentage').innerText = `${pct}% Success Rate`;
+
+            const tbody = document.getElementById('quiz-review-tbody');
+            tbody.innerHTML = '';
+
+            quizHistory.forEach(row => {
+                const tr = document.createElement('tr');
+                tr.className = row.status ? 'correct-row' : 'wrong-row';
+                tr.innerHTML = `
+                    <td style="font-size:1.1rem; font-weight:bold;">${row.character.replace(/\n/g, '<br>')}</td>
+                    <td style="font-size:0.85rem;">${row.selected.replace(/\n/g, ' ')}</td>
+                    <td style="font-size:0.85rem;">${row.correct.replace(/\n/g, ' ')}</td>
+                    <td>${row.status ? '✅' : '❌'}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function exitQuizToDashboard() {
+            quizResultsView.classList.add('hidden');
+            quizGameView.classList.add('hidden');
+            
+            if (activeQuizType === 'deck') {
+                // Return to specific deck 
+                studyView.classList.remove('hidden');
+                cancelDeckQuizSettings();
+            } else if (activeQuizType === 'special') {
+                dashboardView.classList.remove('hidden');
+                handleCategorySwitch(currentCategory);
+            } else {
+                kanaDashboardView.classList.remove('hidden');
+            }
         }
 
         function renderNotes() {
             notesZone.innerHTML = '';
             const list = decksData.grammar[activeDeckKey] || [];
-            
             if(list.length === 0) {
-                notesZone.innerHTML = `<p style="text-align:center; color:#777;">No notes added yet in this lesson. Fill out the fields below!</p>`;
+                notesZone.innerHTML = `<p style="text-align:center; color:var(--text-muted);">No notes added yet in this lesson. Fill out the fields below!</p>`;
                 return;
             }
-
             list.forEach((item, index) => {
                 const noteBlock = document.createElement('div');
                 noteBlock.className = 'note-block';
-                
                 const lines = item.back.split('\n');
                 let meaningText = '', particleText = '', exampleText = '', generalText = '';
-
                 lines.forEach(line => {
                     if(line.toLowerCase().startsWith('meaning:')) meaningText = line.replace(/meaning:/i, '').trim();
                     else if(line.toLowerCase().startsWith('particle:')) particleText = line.replace(/particle:/i, '').trim();
                     else if(line.toLowerCase().startsWith('example:')) exampleText = line.replace(/example:/i, '').trim();
                     else { if(line.trim()) generalText += line + '\n'; }
                 });
-
-                let sectionsHTML = '';
-                if(meaningText) sectionsHTML += `<div class="note-section"><div class="note-label">💡 Meaning</div><div class="note-text">${meaningText}</div></div>`;
-                if(particleText) sectionsHTML += `<div class="note-section"><div class="note-label">📌 Particle / Rule</div><div class="note-text">${particleText}</div></div>`;
-                if(exampleText) sectionsHTML += `<div class="note-section"><div class="note-label">📝 Example Sentence</div><div class="note-text" style="color: #2c3e50; font-weight: 500;">${exampleText}</div></div>`;
-                if(generalText) sectionsHTML += `<div class="note-section"><div class="note-label">Notes</div><div class="note-text">${generalText.trim()}</div></div>`;
-                if(!sectionsHTML) sectionsHTML = `<div class="note-section"><div class="note-text">${item.back}</div></div>`;
-
-                noteBlock.innerHTML = `
-                    <div class="note-topic-header">✨ ${item.front}</div>
-                    <div class="note-body">${sectionsHTML}</div>
+                let sec = '';
+                if(meaningText) sec += `<div class="note-section"><div class="note-label">💡 Meaning</div><div class="note-text">${meaningText}</div></div>`;
+                if(particleText) sec += `<div class="note-section"><div class="note-label">📌 Particle / Rule</div><div class="note-text">${particleText}</div></div>`;
+                if(exampleText) sec += `<div class="note-section"><div class="note-label">📝 Example Sentence</div><div class="note-text" style="color: var(--primary); font-weight: 500;">${exampleText}</div></div>`;
+                if(generalText) sec += `<div class="note-section"><div class="note-label">Notes</div><div class="note-text">${generalText.trim()}</div></div>`;
+                if(!sec) sec = `<div class="note-section"><div class="note-text">${item.back}</div></div>`;
+                noteBlock.innerHTML = `<div class="note-topic-header">✨ ${item.front}</div><div class="note-body">${sec}</div>
                     <div class="note-actions">
                         <button class="btn-teal" style="padding: 6px 14px; font-size:0.8rem; border-radius:8px;" onclick="editNoteItem(${index})">✏️ Edit</button>
                         <button class="btn-sm-red" style="padding: 6px 14px; font-size:0.8rem; border-radius:8px;" onclick="deleteNoteItem(${index})">🗑️ Delete</button>
-                    </div>
-                `;
+                    </div>`;
                 notesZone.appendChild(noteBlock);
             });
         }
@@ -882,9 +1619,7 @@
             if (newFront === null) return;
             const newBack = prompt("Edit Note Body Content:", item.back);
             if (newBack === null) return;
-
-            item.front = newFront.trim();
-            item.back = newBack.trim();
+            item.front = newFront.trim(); item.back = newBack.trim();
             localStorage.setItem('categorizedFlashcardDecks', JSON.stringify(decksData));
             renderNotes();
         }
@@ -914,90 +1649,61 @@
             }
             const formattedFront = list[currentIndex].front.replace(/\n/g, '<br>');
             const formattedBack = list[currentIndex].back.replace(/\n/g, '<br>');
-
-            if (isNihongoFirst) {
-                frontFace.innerHTML = formattedFront;
-                backFace.innerHTML = formattedBack;
-            } else {
-                frontFace.innerHTML = formattedBack;
-                backFace.innerHTML = formattedFront;
-            }
+            if (isNihongoFirst) { frontFace.innerHTML = formattedFront; backFace.innerHTML = formattedBack; }
+            else { frontFace.innerHTML = formattedBack; backFace.innerHTML = formattedFront; }
             counterElement.innerText = `Card ${currentIndex + 1} of ${list.length}`;
         }
 
-        function flipCard() { 
-            if((decksData[currentCategory][activeDeckKey]||[]).length > 0) cardElement.classList.toggle('is-flipped'); 
-        }
+        // Action controls mappings logic
+        function flipCard() { if((decksData[currentCategory][activeDeckKey]||[]).length > 0) cardElement.classList.toggle('is-flipped'); }
         function nextCard(e) { e.stopPropagation(); move(1); }
         function prevCard(e) { e.stopPropagation(); move(-1); }
         function move(dir) {
-            const len = decksData[currentCategory][activeDeckKey].length;
-            if (len <= 1) return;
+            const len = decksData[currentCategory][activeDeckKey].length; if (len <= 1) return;
             cardElement.classList.remove('is-flipped');
             setTimeout(() => { currentIndex = (currentIndex + dir + len) % len; updateCard(); }, 150);
         }
 
         function addNewItem() {
             if(!inputFront.value.trim() || !inputBack.value.trim()) return alert("Please fulfill all inputs!");
-            
-            decksData[currentCategory][activeDeckKey].push({ 
-                front: inputFront.value.trim(), 
-                back: inputBack.value.trim() 
-            });
+            decksData[currentCategory][activeDeckKey].push({ front: inputFront.value.trim(), back: inputBack.value.trim() });
             localStorage.setItem('categorizedFlashcardDecks', JSON.stringify(decksData));
-            
-            inputFront.value = ''; 
-            inputBack.value = '';
+            inputFront.value = ''; inputBack.value = '';
             
             if(currentCategory === 'grammar') {
                 renderNotes();
-            } else {
-                currentIndex = decksData[currentCategory][activeDeckKey].length - 1;
-                cardElement.classList.remove('is-flipped');
-                setTimeout(updateCard, 150);
+            } else { 
+                currentIndex = decksData[currentCategory][activeDeckKey].length - 1; 
+                cardElement.classList.remove('is-flipped'); 
+                setTimeout(updateCard, 150); 
+                if (isNotesMode) renderVocabList(); 
             }
         }
 
         function editCurrentCard(e) {
-            e.stopPropagation();
-            const arr = decksData[currentCategory][activeDeckKey];
-            if (!arr || arr.length === 0) return;
-            
+            e.stopPropagation(); const arr = decksData[currentCategory][activeDeckKey]; if (!arr || arr.length === 0) return;
             const currentCard = arr[currentIndex];
-            const newFront = prompt("Edit Front Side:", currentCard.front);
-            if (newFront === null) return; 
-            const newBack = prompt("Edit Back Side:", currentCard.back);
-            if (newBack === null) return; 
-            
-            currentCard.front = newFront.trim();
-            currentCard.back = newBack.trim();
-            localStorage.setItem('categorizedFlashcardDecks', JSON.stringify(decksData));
-            updateCard();
+            const newFront = prompt("Edit Front Side:", currentCard.front); if (newFront === null) return; 
+            const newBack = prompt("Edit Back Side:", currentCard.back); if (newBack === null) return; 
+            currentCard.front = newFront.trim(); currentCard.back = newBack.trim();
+            localStorage.setItem('categorizedFlashcardDecks', JSON.stringify(decksData)); updateCard();
         }
 
         function shuffleCards(e) {
-            e.stopPropagation();
-            const arr = decksData[currentCategory][activeDeckKey];
-            if(!arr || arr.length <= 1) return;
+            e.stopPropagation(); const arr = decksData[currentCategory][activeDeckKey]; if(!arr || arr.length <= 1) return;
             cardElement.classList.remove('is-flipped');
             setTimeout(() => {
-                for (let i = arr.length - 1; i > 0; i--) {
-                    const j = Math.floor(Math.random() * (i + 1));
-                    [arr[i], arr[j]] = [arr[j], arr[i]];
-                }
+                for (let i = arr.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [arr[i], arr[j]] = [arr[j], arr[i]]; }
                 currentIndex = 0; updateCard();
             }, 150);
         }
 
         function deleteCurrentCard(e) {
-            e.stopPropagation();
-            const arr = decksData[currentCategory][activeDeckKey];
-            if(!arr || arr.length === 0) return;
+            e.stopPropagation(); const arr = decksData[currentCategory][activeDeckKey]; if(!arr || arr.length === 0) return;
             if(confirm("Delete this card?")) {
                 cardElement.classList.remove('is-flipped');
                 setTimeout(() => {
-                    arr.splice(currentIndex, 1);
-                    localStorage.setItem('categorizedFlashcardDecks', JSON.stringify(decksData));
+                    arr.splice(currentIndex, 1); localStorage.setItem('categorizedFlashcardDecks', JSON.stringify(decksData));
                     if(currentIndex >= arr.length && arr.length > 0) currentIndex = arr.length - 1;
                     updateCard();
                 }, 150);
